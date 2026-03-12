@@ -27,12 +27,12 @@ jobs:
             platform: windows
             extension: .exe
             separator: ';'
-            icon: 'icons/icon.ico'
+            icon: 'icon.ico'
           - os: macos-latest
             platform: macos
             extension: ''
             separator: ':'
-            icon: 'icons/icon.icns'
+            icon: 'icon.icns'
     
     runs-on: ${{ matrix.os }}
     
