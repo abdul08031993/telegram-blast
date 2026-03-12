@@ -1,0 +1,826 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard - Telegram Blas</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.8.1/font/bootstrap-icons.css">
+<style>
+        :root {
+            --primary-color: #2aabee;        /* Biru Telegram */
+            --secondary-color: #1a8ac9;       /* Biru lebih gelap untuk hover */
+            --success-color: #31b24a;         /* Hijau lebih soft */
+            --danger-color: #e44b4b;          /* Merah lebih soft */
+            --warning-color: #f7b731;          /* Oranye lebih soft */
+            --info-color: #17a2b8;            
+            --bg-light: #f0f2f5;               /* Background abu-abu muda */
+            --text-primary: #1c1e21;           /* Hitam pekat */
+            --text-secondary: #65676b;         /* Abu-abu */
+            --border-color: #e4e6eb;           /* Border abu-abu */
+            --card-bg: #ffffff;                 /* Putih bersih */
+        }
+
+        body {
+            background: var(--bg-light);
+            min-height: 100vh;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+            color: var(--text-primary);
+            margin: 0;
+            padding: 0;
+        }
+
+        /* Navbar */
+        .navbar-custom {
+            background: #ffffff !important;
+            backdrop-filter: blur(10px);
+            box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05), 0 1px 4px rgba(0, 0, 0, 0.05);
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .navbar-custom .navbar-brand {
+            font-weight: 600;
+            color: var(--text-primary) !important;
+            font-size: 1.4rem;
+        }
+
+        .navbar-custom .navbar-brand i {
+            color: var(--primary-color);
+            margin-right: 8px;
+        }
+
+        .navbar-custom .nav-link {
+            color: var(--text-secondary) !important;
+            font-weight: 500;
+            transition: all 0.2s ease;
+            padding: 0.5rem 1rem !important;
+            margin: 0 0.2rem;
+            border-radius: 6px;
+        }
+
+        .navbar-custom .nav-link:hover,
+        .navbar-custom .nav-link.active {
+            color: var(--primary-color) !important;
+            background: rgba(42, 171, 238, 0.08);
+        }
+
+        .navbar-custom .nav-link i {
+            margin-right: 6px;
+            font-size: 1rem;
+        }
+
+        /* Stat Cards */
+        .stat-card {
+            background: var(--card-bg);
+            color: var(--text-primary);
+            padding: 1.5rem;
+            border-radius: 12px;
+            text-align: center;
+            transition: all 0.2s ease;
+            box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
+            border: 1px solid var(--border-color);
+        }
+
+        .stat-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+        }
+
+        .stat-card i {
+            font-size: 2rem;
+            margin-bottom: 1rem;
+            color: var(--primary-color);
+        }
+
+        .stat-card .stat-value {
+            font-size: 2rem;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+            color: var(--text-primary);
+        }
+
+        .stat-card .stat-label {
+            font-size: 0.9rem;
+            color: var(--text-secondary);
+        }
+
+        /* Card Styles */
+        .card {
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
+            transition: all 0.2s ease;
+            overflow: hidden;
+            background: var(--card-bg);
+        }
+
+        .card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+        }
+
+        .card-header {
+            background: #ffffff;
+            color: var(--text-primary);
+            border-bottom: 1px solid var(--border-color);
+            border-radius: 12px 12px 0 0 !important;
+            padding: 16px 20px;
+            border: none;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .card-header h5 {
+            margin: 0;
+            font-size: 1.1rem;
+            color: var(--text-primary);
+            font-weight: 600;
+        }
+
+        .card-header h5 i {
+            color: var(--primary-color);
+            margin-right: 8px;
+        }
+
+        .card-body {
+            padding: 20px;
+            background: var(--card-bg);
+        }
+
+        /* Button Styles */
+        .btn {
+            border-radius: 8px;
+            padding: 0.5rem 1.5rem;
+            font-weight: 500;
+            transition: all 0.2s ease;
+            border: 1px solid transparent;
+            cursor: pointer;
+            font-size: 0.9rem;
+            display: inline-block;
+            text-align: center;
+        }
+
+        .btn i {
+            margin-right: 6px;
+        }
+
+        .btn-outline-primary {
+            border: 1px solid var(--primary-color);
+            color: var(--primary-color);
+            background: transparent;
+        }
+
+        .btn-outline-primary:hover {
+            background: var(--primary-color);
+            border-color: var(--primary-color);
+            color: white;
+            transform: translateY(-1px);
+            box-shadow: 0 2px 8px rgba(42, 171, 238, 0.3);
+        }
+
+        .btn-outline-success {
+            border: 1px solid var(--success-color);
+            color: var(--success-color);
+            background: transparent;
+        }
+
+        .btn-outline-success:hover {
+            background: var(--success-color);
+            border-color: var(--success-color);
+            color: white;
+            transform: translateY(-1px);
+            box-shadow: 0 2px 8px rgba(49, 178, 74, 0.3);
+        }
+
+        .btn-outline-info {
+            border: 1px solid var(--info-color);
+            color: var(--info-color);
+            background: transparent;
+        }
+
+        .btn-outline-info:hover {
+            background: var(--info-color);
+            border-color: var(--info-color);
+            color: white;
+            transform: translateY(-1px);
+            box-shadow: 0 2px 8px rgba(23, 162, 184, 0.3);
+        }
+
+        .btn-outline-danger {
+            border: 1px solid var(--danger-color);
+            color: var(--danger-color);
+            background: transparent;
+        }
+
+        .btn-outline-danger:hover {
+            background: var(--danger-color);
+            border-color: var(--danger-color);
+            color: white;
+            transform: translateY(-1px);
+        }
+
+        .btn-outline-warning {
+            border: 1px solid var(--warning-color);
+            color: var(--warning-color);
+            background: transparent;
+        }
+
+        .btn-outline-warning:hover {
+            background: var(--warning-color);
+            border-color: var(--warning-color);
+            color: white;
+            transform: translateY(-1px);
+        }
+
+        /* List Group */
+        .list-group-item {
+            border: none;
+            border-bottom: 1px solid var(--border-color);
+            padding: 12px 15px;
+            background: white;
+            color: var(--text-primary);
+        }
+
+        .list-group-item:last-child {
+            border-bottom: none;
+        }
+
+        .list-group-item:hover {
+            background: #f8f9fa;
+        }
+
+        .badge {
+            padding: 4px 8px;
+            border-radius: 30px;
+            font-weight: 500;
+            font-size: 0.75rem;
+            display: inline-block;
+        }
+
+        .badge.bg-success {
+            background: #e8f7ed !important;
+            color: #1f6e3a;
+            border: 1px solid #b1dfc2;
+        }
+
+        .badge.bg-danger {
+            background: #ffebee !important;
+            color: #b71c1c;
+            border: 1px solid #ffcdd2;
+        }
+
+        .badge.bg-warning {
+            background: #fff3e0 !important;
+            color: #b45f1b;
+            border: 1px solid #ffe0b2;
+        }
+
+        .badge.bg-info {
+            background: #e8f2fa !important;
+            color: #0a4c7a;
+            border: 1px solid #b8d9f0;
+        }
+
+        .badge.bg-primary {
+            background: rgba(42, 171, 238, 0.1) !important;
+            color: var(--primary-color);
+            border: 1px solid rgba(42, 171, 238, 0.2);
+        }
+
+        /* Table Styles */
+        .table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 0;
+        }
+
+        .table thead th {
+            background: #f8f9fa;
+            color: var(--text-secondary);
+            font-weight: 600;
+            border-bottom: 1px solid var(--border-color);
+            padding: 12px;
+            text-align: left;
+        }
+
+        .table tbody tr {
+            transition: all 0.2s ease;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .table tbody tr:hover {
+            background: #f8f9fa;
+        }
+
+        .table td {
+            padding: 12px;
+            vertical-align: middle;
+            color: var(--text-primary);
+        }
+
+        .text-success {
+            color: var(--success-color) !important;
+            font-weight: 600;
+        }
+
+        .text-danger {
+            color: var(--danger-color) !important;
+            font-weight: 600;
+        }
+
+        .text-warning {
+            color: var(--warning-color) !important;
+            font-weight: 600;
+        }
+
+        .text-info {
+            color: var(--info-color) !important;
+            font-weight: 600;
+        }
+
+        /* Empty State */
+        .empty-state {
+            text-align: center;
+            padding: 40px 20px;
+            background: white;
+            border-radius: 12px;
+            border: 1px solid var(--border-color);
+        }
+
+        .empty-state i {
+            font-size: 3rem;
+            color: var(--text-secondary);
+            opacity: 0.3;
+            margin-bottom: 15px;
+        }
+
+        .empty-state h5 {
+            color: var(--text-primary);
+            margin-bottom: 8px;
+        }
+
+        .empty-state p {
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+            margin-bottom: 0;
+        }
+
+        /* Loading Spinner */
+        #globalLoading {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(255, 255, 255, 0.9);
+            z-index: 99999;
+            display: none;
+            justify-content: center;
+            align-items: center;
+            backdrop-filter: blur(3px);
+        }
+
+        .spinner {
+            width: 40px;
+            height: 40px;
+            border: 3px solid var(--border-color);
+            border-top: 3px solid var(--primary-color);
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        /* Container */
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        /* Grid */
+        .row {
+            display: flex;
+            flex-wrap: wrap;
+            margin: 0 -10px;
+        }
+
+        .col {
+            padding: 0 10px;
+            flex: 1;
+        }
+
+        /* Alert */
+        .alert {
+            border-radius: 8px;
+            padding: 12px 16px;
+            margin-bottom: 20px;
+            border: 1px solid transparent;
+        }
+
+        .alert-info {
+            background: #e8f2fa;
+            border-color: #b8d9f0;
+            color: #0a4c7a;
+        }
+
+        .alert-info i {
+            color: var(--info-color);
+        }
+
+        /* Margin utilities */
+        .mt-2 { margin-top: 8px; }
+        .mt-3 { margin-top: 16px; }
+        .mt-4 { margin-top: 24px; }
+        .mb-2 { margin-bottom: 8px; }
+        .mb-3 { margin-bottom: 16px; }
+        .mb-4 { margin-bottom: 24px; }
+        .ml-2 { margin-left: 8px; }
+        .mr-2 { margin-right: 8px; }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .container {
+                padding: 10px;
+            }
+            
+            .card-body {
+                padding: 16px;
+            }
+            
+            .stat-card {
+                margin-bottom: 15px;
+            }
+
+            .table {
+                font-size: 0.85rem;
+            }
+
+            .btn {
+                padding: 0.4rem 1rem;
+                font-size: 0.85rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Navbar -->
+    <nav class="navbar navbar-expand-lg navbar-dark navbar-custom">
+        <div class="container">
+            <a class="navbar-brand" href="/dashboard">
+                <i class="bi bi-telegram"></i> Telegram Blas
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item">
+                        <a class="nav-link active" href="/dashboard">
+                            <i class="bi bi-speedometer2"></i> Dashboard
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/accounts">
+                            <i class="bi bi-person-badge"></i> Akun
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/broadcast">
+                            <i class="bi bi-send"></i> Broadcast
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/monitor">
+                            <i class="bi bi-chat-dots"></i> Monitor
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/scrap">
+                            <i class="bi bi-people-fill"></i> Scrap
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/add_members">
+                            <i class="bi bi-person-plus"></i> Tambah Anggota
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <div class="container mt-4">
+        <!-- Header -->
+        <div class="row mb-4">
+            <div class="col-12">
+                <h2 class="text-white">
+                    <i class="bi bi-speedometer2"></i> Dashboard
+                </h2>
+                <p class="text-white-50">
+                    Selamat datang di Telegram Blas - Kelola semua akun Telegram Anda dalam satu tempat
+                </p>
+            </div>
+        </div>
+        
+        <!-- Statistics Cards -->
+        <div class="row mt-4">
+            {% set active_count = accounts|selectattr('is_active', 'equalto', true)|list|length %}
+            {% set inactive_count = accounts|selectattr('is_active', 'equalto', false)|list|length %}
+            
+            <div class="col-md-4 mb-3">
+                <div class="stat-card">
+                    <i class="bi bi-phone"></i>
+                    <div class="stat-value">{{ accounts|length }}</div>
+                    <div class="stat-label">Total Akun</div>
+                </div>
+            </div>
+            <div class="col-md-4 mb-3">
+                <div class="stat-card" style="background: linear-gradient(135deg, #28a745, #20c997);">
+                    <i class="bi bi-check-circle"></i>
+                    <div class="stat-value">{{ active_count }}</div>
+                    <div class="stat-label">Akun Aktif</div>
+                </div>
+            </div>
+            <div class="col-md-4 mb-3">
+                <div class="stat-card" style="background: linear-gradient(135deg, #ffc107, #fd7e14);">
+                    <i class="bi bi-clock"></i>
+                    <div class="stat-value">{{ inactive_count }}</div>
+                    <div class="stat-label">Akun Belum Aktif</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Quick Actions and Account List -->
+        <div class="row mt-4">
+            <!-- Quick Actions -->
+            <div class="col-md-6 mb-3">
+                <div class="card">
+                    <div class="card-header">
+                        <h5 class="mb-0"><i class="bi bi-lightning"></i> Fitur Cepat</h5>
+                    </div>
+                    <div class="card-body">
+                        <div class="d-grid gap-3">
+                            <a href="/accounts" class="btn btn-outline-primary btn-lg">
+                                <i class="bi bi-plus-circle"></i> Tambah Akun Baru
+                            </a>
+                            <a href="/broadcast" class="btn btn-outline-success btn-lg">
+                                <i class="bi bi-send"></i> Kirim Broadcast
+                            </a>
+                            <a href="/scrap" class="btn btn-outline-info btn-lg">
+                                <i class="bi bi-people"></i> Scrap Member Grup
+                            </a>
+                            <a href="/add_members" class="btn btn-outline-warning btn-lg">
+                                <i class="bi bi-person-plus"></i> Tambah Anggota Grup
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Account List -->
+            <div class="col-md-6 mb-3">
+                <div class="card">
+                    <div class="card-header">
+                        <h5 class="mb-0"><i class="bi bi-phone"></i> Akun Terdaftar</h5>
+                    </div>
+                    <div class="card-body" style="max-height: 400px; overflow-y: auto;">
+                        {% if accounts %}
+                            <ul class="list-group">
+                                {% for account in accounts %}
+                                    <li class="list-group-item d-flex justify-content-between align-items-center">
+                                        <div>
+                                            <i class="bi bi-phone me-2"></i>
+                                            <strong>{{ account.phone }}</strong>
+                                            <br>
+                                            <small class="text-muted">
+                                                ID: {{ account.id }} | 
+                                                Ditambahkan: {{ account.created_at }}
+                                            </small>
+                                        </div>
+                                        <div>
+                                            {% if account.is_active %}
+                                                <span class="badge bg-success">Aktif</span>
+                                                {% if account.last_used %}
+                                                <br>
+                                                <small class="text-muted">{{ account.last_used }}</small>
+                                                {% endif %}
+                                            {% else %}
+                                                <span class="badge bg-warning">Belum Login</span>
+                                            {% endif %}
+                                        </div>
+                                    </li>
+                                {% endfor %}
+                            </ul>
+                        {% else %}
+                            <div class="empty-state">
+                                <i class="bi bi-phone"></i>
+                                <p class="mt-3">Belum ada akun terdaftar.</p>
+                                <a href="/accounts" class="btn btn-primary">
+                                    <i class="bi bi-plus-circle"></i> Tambah Akun
+                                </a>
+                            </div>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Broadcast History -->
+        <div class="row mt-4">
+            <div class="col-12">
+                <div class="card">
+                    <div class="card-header">
+                        <h5 class="mb-0"><i class="bi bi-clock-history"></i> Riwayat Broadcast</h5>
+                    </div>
+                    <div class="card-body">
+                        <div class="table-responsive">
+                            <table class="table table-hover" id="historyTable">
+                                <thead>
+                                    <tr>
+                                        <th>Waktu</th>
+                                        <th>Akun</th>
+                                        <th>Pesan</th>
+                                        <th>Total</th>
+                                        <th>Berhasil</th>
+                                        <th>Gagal</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="historyBody">
+                                    <tr>
+                                        <td colspan="6" class="text-center text-muted">
+                                            <i class="bi bi-arrow-repeat me-2"></i>
+                                            Memuat data...
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Loading Spinner -->
+    <div id="globalLoading">
+        <div class="spinner"></div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
+    
+    <script>
+        // ==================== LOADING FUNCTIONS ====================
+        function showLoading() {
+            document.getElementById('globalLoading').style.display = 'flex';
+        }
+
+        function hideLoading() {
+            document.getElementById('globalLoading').style.display = 'none';
+        }
+
+        // ==================== NOTIFICATION FUNCTIONS ====================
+        function showNotification(message, type = 'info') {
+            const notification = document.createElement('div');
+            notification.className = `alert alert-${type}`;
+            notification.style.position = 'fixed';
+            notification.style.top = '20px';
+            notification.style.right = '20px';
+            notification.style.zIndex = '9999';
+            notification.style.minWidth = '300px';
+            notification.style.animation = 'slideInRight 0.3s ease';
+            notification.innerHTML = `
+                <i class="bi ${type === 'success' ? 'bi-check-circle' : type === 'danger' ? 'bi-exclamation-triangle' : 'bi-info-circle'} me-2"></i>
+                ${message}
+            `;
+            
+            document.body.appendChild(notification);
+            
+            setTimeout(() => {
+                notification.style.animation = 'slideOutRight 0.3s ease';
+                setTimeout(() => notification.remove(), 300);
+            }, 3000);
+        }
+
+        // ==================== LOAD BROADCAST HISTORY ====================
+        function loadBroadcastHistory() {
+            showLoading();
+            
+            fetch('/get_history')
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error(`HTTP error! status: ${response.status}`);
+                    }
+                    return response.json();
+                })
+                .then(data => {
+                    hideLoading();
+                    
+                    const tbody = document.getElementById('historyBody');
+                    
+                    if (data.success && data.history && data.history.length > 0) {
+                        tbody.innerHTML = '';
+                        
+                        data.history.forEach(item => {
+                            tbody.innerHTML += `
+                                <tr>
+                                    <td>${item.created_at || '-'}</td>
+                                    <td>${item.account_phone || '-'}</td>
+                                    <td>${item.message_content || '-'}</td>
+                                    <td class="text-center">${item.recipients_count || 0}</td>
+                                    <td class="text-success text-center">${item.success_count || 0}</td>
+                                    <td class="text-danger text-center">${item.failed_count || 0}</td>
+                                </tr>
+                            `;
+                        });
+                    } else {
+                        tbody.innerHTML = `
+                            <tr>
+                                <td colspan="6" class="text-center text-muted">
+                                    <i class="bi bi-inbox me-2"></i>
+                                    Belum ada riwayat broadcast
+                                </td>
+                            </tr>
+                        `;
+                    }
+                })
+                .catch(error => {
+                    hideLoading();
+                    console.error('Error loading history:', error);
+                    
+                    document.getElementById('historyBody').innerHTML = `
+                        <tr>
+                            <td colspan="6" class="text-center text-danger">
+                                <i class="bi bi-exclamation-triangle me-2"></i>
+                                Gagal memuat riwayat: ${error.message}
+                            </td>
+                        </tr>
+                    `;
+                });
+        }
+
+        // ==================== AUTO REFRESH STATUS ====================
+        function refreshAccountStatus() {
+            {% for account in accounts %}
+                fetch(`/check_login_status/{{ account.id }}`)
+                    .then(response => response.json())
+                    .then(data => {
+                        if (data.success) {
+                            // Update tampilan jika status berubah
+                            const accountElement = document.querySelector(`[data-account-id="{{ account.id }}"]`);
+                            if (accountElement) {
+                                const badge = accountElement.querySelector('.badge');
+                                if (badge) {
+                                    if (data.is_active) {
+                                        badge.className = 'badge bg-success';
+                                        badge.textContent = 'Aktif';
+                                    } else {
+                                        badge.className = 'badge bg-warning';
+                                        badge.textContent = 'Belum Login';
+                                    }
+                                }
+                            }
+                        }
+                    })
+                    .catch(error => console.error('Error refreshing status:', error));
+            {% endfor %}
+        }
+
+        // ==================== INITIALIZATION ====================
+        document.addEventListener('DOMContentLoaded', function() {
+            // Load broadcast history
+            loadBroadcastHistory();
+            
+            // Auto refresh status every 30 seconds
+            setInterval(refreshAccountStatus, 30000);
+            
+            // Add data attributes to account list items
+            document.querySelectorAll('.list-group-item').forEach((item, index) => {
+                {% for account in accounts %}
+                    if (index === {{ loop.index0 }}) {
+                        item.setAttribute('data-account-id', '{{ account.id }}');
+                    }
+                {% endfor %}
+            });
+        });
+
+        // ==================== STYLES FOR NOTIFICATIONS ====================
+        const style = document.createElement('style');
+        style.textContent = `
+            @keyframes slideInRight {
+                from { transform: translateX(100%); opacity: 0; }
+                to { transform: translateX(0); opacity: 1; }
+            }
+            
+            @keyframes slideOutRight {
+                from { transform: translateX(0); opacity: 1; }
+                to { transform: translateX(100%); opacity: 0; }
+            }
+        `;
+        document.head.appendChild(style);
+    </script>
+</body>
+</html>

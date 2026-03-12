@@ -1,0 +1,1222 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Broadcast - Telegram Blaster Pro</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.8.1/font/bootstrap-icons.css">
+<style>
+        :root {
+            --primary-color: #2aabee;        /* Biru Telegram */
+            --secondary-color: #1a8ac9;       /* Biru lebih gelap untuk hover */
+            --success-color: #31b24a;         /* Hijau lebih soft */
+            --danger-color: #e44b4b;          /* Merah lebih soft */
+            --warning-color: #f7b731;          /* Oranye lebih soft */
+            --info-color: #17a2b8;            
+            --bg-light: #f0f2f5;               /* Background abu-abu muda */
+            --text-primary: #1c1e21;           /* Hitam pekat */
+            --text-secondary: #65676b;         /* Abu-abu */
+            --border-color: #e4e6eb;           /* Border abu-abu */
+            --card-bg: #ffffff;                 /* Putih bersih */
+        }
+
+        body {
+            background: var(--bg-light);
+            min-height: 100vh;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+            color: var(--text-primary);
+            margin: 0;
+            padding: 0;
+        }
+
+        /* Navbar */
+        .navbar-custom {
+            background: #ffffff !important;
+            backdrop-filter: blur(10px);
+            box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05), 0 1px 4px rgba(0, 0, 0, 0.05);
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .navbar-custom .navbar-brand {
+            font-weight: 600;
+            color: var(--text-primary) !important;
+            font-size: 1.4rem;
+        }
+
+        .navbar-custom .navbar-brand i {
+            color: var(--primary-color);
+            margin-right: 8px;
+        }
+
+        .navbar-custom .nav-link {
+            color: var(--text-secondary) !important;
+            font-weight: 500;
+            transition: all 0.2s ease;
+            padding: 0.5rem 1rem !important;
+            margin: 0 0.2rem;
+            border-radius: 6px;
+        }
+
+        .navbar-custom .nav-link:hover,
+        .navbar-custom .nav-link.active {
+            color: var(--primary-color) !important;
+            background: rgba(42, 171, 238, 0.08);
+        }
+
+        .navbar-custom .nav-link i {
+            margin-right: 6px;
+            font-size: 1rem;
+        }
+
+        /* Page Header */
+        .page-header {
+            color: var(--text-primary);
+            margin-bottom: 24px;
+        }
+
+        .page-header h2 {
+            font-weight: 600;
+            font-size: 1.8rem;
+            margin-bottom: 8px;
+            color: var(--text-primary);
+        }
+
+        .page-header h2 i {
+            color: var(--primary-color);
+            margin-right: 10px;
+        }
+
+        .page-header p {
+            color: var(--text-secondary);
+            margin-bottom: 0;
+            font-size: 1rem;
+        }
+
+        /* Card Styles */
+        .card {
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
+            transition: all 0.2s ease;
+            overflow: hidden;
+            margin-bottom: 20px;
+            background: var(--card-bg);
+        }
+
+        .card:hover {
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+            transform: translateY(-2px);
+        }
+
+        .card-header {
+            background: #ffffff;
+            color: var(--text-primary);
+            border-bottom: 1px solid var(--border-color);
+            padding: 16px 20px;
+            font-weight: 600;
+            border-radius: 12px 12px 0 0 !important;
+        }
+
+        .card-header h5 {
+            margin: 0;
+            font-size: 1.1rem;
+            color: var(--text-primary);
+        }
+
+        .card-header h5 i {
+            color: var(--primary-color);
+            margin-right: 8px;
+        }
+
+        .card-body {
+            padding: 20px;
+            background: var(--card-bg);
+        }
+
+        /* Form Styles */
+        .form-label {
+            font-weight: 500;
+            color: var(--text-primary);
+            margin-bottom: 6px;
+            font-size: 0.9rem;
+        }
+
+        .form-label i {
+            color: var(--primary-color);
+            margin-right: 5px;
+        }
+
+        .form-control, .form-select {
+            border-radius: 8px;
+            border: 1px solid var(--border-color);
+            padding: 10px 14px;
+            transition: all 0.2s ease;
+            font-size: 0.95rem;
+            background: white;
+            width: 100%;
+        }
+
+        .form-control:focus, .form-select:focus {
+            border-color: var(--primary-color);
+            box-shadow: 0 0 0 3px rgba(42, 171, 238, 0.1);
+            outline: none;
+        }
+
+        .form-control:hover {
+            border-color: #bcc0c8;
+        }
+
+        .form-control::placeholder {
+            color: var(--text-secondary);
+            opacity: 0.6;
+            font-size: 0.9rem;
+        }
+
+        .form-text {
+            color: var(--text-secondary);
+            font-size: 0.8rem;
+            margin-top: 4px;
+        }
+
+        .form-check-input:checked {
+            background-color: var(--primary-color);
+            border-color: var(--primary-color);
+        }
+
+        /* Button Styles */
+        .btn {
+            border-radius: 8px;
+            padding: 8px 16px;
+            font-weight: 500;
+            transition: all 0.2s ease;
+            border: 1px solid transparent;
+            cursor: pointer;
+            font-size: 0.9rem;
+            display: inline-block;
+            text-align: center;
+        }
+
+        .btn i {
+            margin-right: 6px;
+        }
+
+        .btn-primary {
+            background: var(--primary-color);
+            color: white;
+            border: none;
+        }
+
+        .btn-primary:hover:not(:disabled) {
+            background: var(--secondary-color);
+            transform: translateY(-1px);
+            box-shadow: 0 2px 8px rgba(42, 171, 238, 0.3);
+        }
+
+        .btn-primary:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+        }
+
+        .btn-secondary {
+            background: #6c757d;
+            color: white;
+        }
+
+        .btn-secondary:hover:not(:disabled) {
+            background: #5a6268;
+        }
+
+        .btn-success {
+            background: var(--success-color);
+            color: white;
+            border: none;
+        }
+
+        .btn-success:hover:not(:disabled) {
+            background: #279b3b;
+            transform: translateY(-1px);
+            box-shadow: 0 2px 8px rgba(49, 178, 74, 0.3);
+        }
+
+        .btn-danger {
+            background: var(--danger-color);
+            color: white;
+            border: none;
+        }
+
+        .btn-danger:hover:not(:disabled) {
+            background: #c53737;
+            transform: translateY(-1px);
+            box-shadow: 0 2px 8px rgba(228, 75, 75, 0.3);
+        }
+
+        .btn-warning {
+            background: var(--warning-color);
+            color: white;
+            border: none;
+        }
+
+        .btn-warning:hover:not(:disabled) {
+            background: #e69e2c;
+        }
+
+        .btn-info {
+            background: var(--info-color);
+            color: white;
+            border: none;
+        }
+
+        .btn-info:hover:not(:disabled) {
+            background: #138496;
+        }
+
+        .btn-sm {
+            padding: 6px 12px;
+            font-size: 0.85rem;
+        }
+
+        .btn-lg {
+            padding: 12px 24px;
+            font-size: 1rem;
+        }
+
+        /* Result Area */
+        .result-stats {
+            display: flex;
+            justify-content: space-around;
+            margin-bottom: 20px;
+            padding: 16px;
+            background: #f8f9fa;
+            border-radius: 10px;
+            border: 1px solid var(--border-color);
+        }
+
+        .stat-item {
+            text-align: center;
+        }
+
+        .stat-label {
+            font-size: 0.85rem;
+            color: var(--text-secondary);
+            margin-bottom: 4px;
+        }
+
+        .stat-value {
+            font-size: 1.8rem;
+            font-weight: 600;
+            color: var(--text-primary);
+        }
+
+        .stat-value.success {
+            color: var(--success-color);
+        }
+
+        .stat-value.danger {
+            color: var(--danger-color);
+        }
+
+        .failed-list {
+            max-height: 300px;
+            overflow-y: auto;
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            padding: 10px;
+            background: #f8f9fa;
+        }
+
+        .failed-item {
+            background: white;
+            border-left: 4px solid var(--danger-color);
+            padding: 12px 15px;
+            margin-bottom: 8px;
+            border-radius: 6px;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+            border: 1px solid var(--border-color);
+        }
+
+        .failed-recipient {
+            font-weight: 600;
+            color: var(--danger-color);
+            margin-bottom: 5px;
+            font-size: 0.95rem;
+        }
+
+        .failed-error {
+            font-size: 0.85rem;
+            color: var(--text-secondary);
+        }
+
+        /* Progress Bar */
+        .progress {
+            height: 8px;
+            border-radius: 30px;
+            background: #f0f2f5;
+            overflow: hidden;
+            margin: 10px 0;
+        }
+
+        .progress-bar {
+            background: var(--primary-color);
+            transition: width 0.3s ease;
+        }
+
+        /* Empty State */
+        .empty-state {
+            text-align: center;
+            padding: 40px 20px;
+            background: white;
+            border-radius: 12px;
+            border: 1px solid var(--border-color);
+        }
+
+        .empty-state i {
+            font-size: 4rem;
+            color: var(--text-secondary);
+            opacity: 0.3;
+            margin-bottom: 15px;
+        }
+
+        .empty-state h6 {
+            color: var(--text-primary);
+            margin-bottom: 10px;
+            font-size: 1.1rem;
+        }
+
+        .empty-state p {
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+            margin-bottom: 0;
+        }
+
+        /* Loading Spinner */
+        #globalLoading {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(255, 255, 255, 0.9);
+            z-index: 99999;
+            display: none;
+            justify-content: center;
+            align-items: center;
+            backdrop-filter: blur(3px);
+        }
+
+        .spinner {
+            width: 40px;
+            height: 40px;
+            border: 3px solid var(--border-color);
+            border-top: 3px solid var(--primary-color);
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        /* Notification */
+        .notification {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            z-index: 9999;
+            min-width: 320px;
+            padding: 16px 20px;
+            border-radius: 10px;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.15);
+            animation: slideInRight 0.3s ease;
+            background: white;
+            border-left: 4px solid var(--primary-color);
+        }
+
+        .notification-success {
+            border-left-color: var(--success-color);
+        }
+
+        .notification-error {
+            border-left-color: var(--danger-color);
+        }
+
+        .notification-warning {
+            border-left-color: var(--warning-color);
+        }
+
+        @keyframes slideInRight {
+            from { transform: translateX(100%); opacity: 0; }
+            to { transform: translateX(0%); opacity: 1; }
+        }
+
+        @keyframes slideOutRight {
+            from { transform: translateX(0%); opacity: 1; }
+            to { transform: translateX(100%); opacity: 0; }
+        }
+
+        /* Stop Button */
+        #stopButtonSection {
+            margin-top: 15px;
+        }
+
+        /* Badges */
+        .badge {
+            padding: 4px 8px;
+            border-radius: 4px;
+            font-size: 0.75rem;
+            font-weight: 500;
+            display: inline-block;
+        }
+
+        .badge-success {
+            background: #e8f7ed;
+            color: #1f6e3a;
+            border: 1px solid #b1dfc2;
+        }
+
+        .badge-warning {
+            background: #fff3e0;
+            color: #b45f1b;
+            border: 1px solid #ffe0b2;
+        }
+
+        .badge-danger {
+            background: #ffebee;
+            color: #b71c1c;
+            border: 1px solid #ffcdd2;
+        }
+
+        .badge-info {
+            background: #e8f2fa;
+            color: #0a4c7a;
+            border: 1px solid #b8d9f0;
+        }
+
+        /* Alert */
+        .alert {
+            border-radius: 8px;
+            padding: 12px 16px;
+            margin-bottom: 20px;
+            border: 1px solid transparent;
+        }
+
+        .alert-warning {
+            background: #fff3e0;
+            border-color: #ffe0b2;
+            color: #b45f1b;
+        }
+
+        .alert-warning i {
+            color: var(--warning-color);
+        }
+
+        .alert ul {
+            padding-left: 20px;
+            margin-bottom: 0;
+        }
+
+        /* Container */
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        /* Grid */
+        .row {
+            display: flex;
+            flex-wrap: wrap;
+            margin: 0 -10px;
+        }
+
+        .col {
+            padding: 0 10px;
+            flex: 1;
+        }
+
+        /* Text utilities */
+        .text-success {
+            color: var(--success-color) !important;
+        }
+
+        .text-danger {
+            color: var(--danger-color) !important;
+        }
+
+        .text-warning {
+            color: var(--warning-color) !important;
+        }
+
+        .text-info {
+            color: var(--info-color) !important;
+        }
+
+        .text-muted {
+            color: var(--text-secondary) !important;
+        }
+
+        /* Background utilities */
+        .bg-light {
+            background: #f8f9fa !important;
+        }
+
+        /* Margin utilities */
+        .mt-2 { margin-top: 8px; }
+        .mt-3 { margin-top: 16px; }
+        .mt-4 { margin-top: 24px; }
+        .mb-2 { margin-bottom: 8px; }
+        .mb-3 { margin-bottom: 16px; }
+        .mb-4 { margin-bottom: 24px; }
+        .ml-2 { margin-left: 8px; }
+        .mr-2 { margin-right: 8px; }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .container {
+                padding: 10px;
+            }
+            
+            .card-body {
+                padding: 16px;
+            }
+            
+            .result-stats {
+                flex-direction: column;
+                gap: 15px;
+            }
+
+            .stat-item {
+                padding: 5px 0;
+            }
+
+            .page-header h2 {
+                font-size: 1.5rem;
+            }
+
+            .btn {
+                padding: 6px 12px;
+                font-size: 0.85rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Navbar -->
+    <nav class="navbar navbar-expand-lg navbar-dark navbar-custom">
+        <div class="container">
+            <a class="navbar-brand" href="/dashboard">
+                <i class="bi bi-telegram"></i> Telegram Blaster Pro
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" href="/dashboard">
+                            <i class="bi bi-speedometer2"></i> Dashboard
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/accounts">
+                            <i class="bi bi-person-badge"></i> Akun
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link active" href="/broadcast">
+                            <i class="bi bi-send"></i> Broadcast
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/monitor">
+                            <i class="bi bi-chat-dots"></i> Monitor
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/scrap">
+                            <i class="bi bi-people-fill"></i> Scrap
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/add_members">
+                            <i class="bi bi-person-plus"></i> Tambah Anggota
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <div class="container mt-4">
+        <!-- Page Header -->
+        <div class="page-header">
+            <h2><i class="bi bi-send"></i> Broadcast Message</h2>
+            <p>Kirim pesan broadcast ke banyak tujuan sekaligus menggunakan akun Telegram Anda</p>
+        </div>
+        
+        <div class="row">
+            <!-- Form Column -->
+            <div class="col-lg-8">
+                <div class="card">
+                    <div class="card-header">
+                        <h5><i class="bi bi-pencil-square"></i> Form Broadcast</h5>
+                    </div>
+                    <div class="card-body">
+                        <form id="broadcastForm">
+                            <!-- Pilih Akun -->
+                            <div class="mb-4">
+                                <label for="account_id" class="form-label">
+                                    <i class="bi bi-phone"></i> Pilih Akun Pengirim
+                                </label>
+                                <select class="form-select" id="account_id" name="account_id" required>
+                                    <option value="">-- Pilih Akun --</option>
+                                    {% for account in accounts %}
+                                        <option value="{{ account.id }}">{{ account.phone }}</option>
+                                    {% endfor %}
+                                </select>
+                                {% if not accounts %}
+                                    <div class="form-text text-warning">
+                                        <i class="bi bi-exclamation-triangle"></i>
+                                        Belum ada akun aktif. Silakan <a href="/accounts">tambah dan login akun</a> terlebih dahulu.
+                                    </div>
+                                {% endif %}
+                            </div>
+                            
+                            <!-- Tujuan -->
+                            <div class="mb-4">
+                                <label for="recipients" class="form-label">
+                                    <i class="bi bi-people"></i> Tujuan (username/user ID)
+                                </label>
+                                <textarea class="form-control" id="recipients" name="recipients" rows="4" 
+                                          placeholder="@username1, @username2, 123456789&#10;atau setiap baris satu tujuan" required></textarea>
+                                <div class="form-text">
+                                    <i class="bi bi-info-circle"></i>
+                                    Pisahkan dengan koma atau setiap baris untuk tujuan yang berbeda
+                                </div>
+                            </div>
+                            
+                            <!-- Pesan -->
+                            <div class="mb-4">
+                                <label for="message" class="form-label">
+                                    <i class="bi bi-chat-text"></i> Pesan
+                                </label>
+                                <textarea class="form-control" id="message" name="message" rows="5" 
+                                          placeholder="Tulis pesan Anda di sini..." required></textarea>
+                                <div class="form-text">
+                                    <span id="charCount">0</span> karakter
+                                </div>
+                            </div>
+                            
+                            <!-- Media -->
+                            <div class="mb-4">
+                                <label for="media" class="form-label">
+                                    <i class="bi bi-image"></i> Media (opsional)
+                                </label>
+                                <input type="file" class="form-control" id="media" name="media" accept="image/*">
+                                <div class="form-text">
+                                    Format yang didukung: JPG, PNG, GIF (maks. 10MB)
+                                </div>
+                            </div>
+                            
+                            <!-- Fitur Delay -->
+                            <div class="mb-4">
+                                <label class="form-label">
+                                    <i class="bi bi-clock"></i> Pengaturan Delay
+                                </label>
+                                <div class="form-check mb-2">
+                                    <input class="form-check-input" type="checkbox" id="delay_enabled" checked>
+                                    <label class="form-check-label" for="delay_enabled">
+                                        Aktifkan delay antar pengiriman
+                                    </label>
+                                </div>
+                                <div class="mt-2" id="delay_settings">
+                                    <label for="delay_time" class="form-label">Delay (detik)</label>
+                                    <input type="number" class="form-control" id="delay_time" value="2" min="1" max="10">
+                                    <div class="form-text">
+                                        <i class="bi bi-info-circle"></i>
+                                        Delay yang lebih lama mengurangi risiko spam dan pemblokiran
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <!-- Submit Button -->
+                            <div class="d-grid">
+                                <button type="submit" class="btn btn-primary btn-lg" id="submitBtn">
+                                    <i class="bi bi-send"></i> Kirim Broadcast
+                                </button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Result Column -->
+            <div class="col-lg-4">
+                <div class="card">
+                    <div class="card-header">
+                        <h5><i class="bi bi-graph-up"></i> Hasil Broadcast</h5>
+                    </div>
+                    <div class="card-body" id="resultArea" style="display: none;">
+                        <!-- Progress Bar -->
+                        <div class="progress mb-4" id="progressContainer" style="display: none;">
+                            <div class="progress-bar progress-bar-striped progress-bar-animated" 
+                                 id="progressBar" role="progressbar" style="width: 0%">0%</div>
+                        </div>
+                        
+                        <!-- Tombol Hentikan -->
+                        <div class="mb-3" id="stopButtonSection" style="display: none;">
+                            <button class="btn btn-danger w-100" id="stopProcessBtn">
+                                <i class="bi bi-stop-circle"></i> Hentikan Proses
+                            </button>
+                        </div>
+                        
+                        <!-- Statistics -->
+                        <div class="result-stats">
+                            <div class="stat-item">
+                                <div class="stat-label">Total</div>
+                                <div class="stat-value" id="totalCount">0</div>
+                            </div>
+                            <div class="stat-item">
+                                <div class="stat-label">Berhasil</div>
+                                <div class="stat-value success" id="successCount">0</div>
+                            </div>
+                            <div class="stat-item">
+                                <div class="stat-label">Gagal</div>
+                                <div class="stat-value danger" id="failedCount">0</div>
+                            </div>
+                        </div>
+                        
+                        <!-- Status Broadcast -->
+                        <div class="alert alert-info text-center mb-3" id="broadcastStatus" style="display: none;">
+                            <i class="bi bi-hourglass-split"></i> <span id="statusMessage">Memulai broadcast...</span>
+                        </div>
+                        
+                        <!-- Failed Details -->
+                        <div id="failedSection" style="display: none;">
+                            <hr>
+                            <h6 class="mb-3"><i class="bi bi-exclamation-triangle text-danger"></i> Detail Gagal:</h6>
+                            <div class="failed-list" id="failedDetails"></div>
+                        </div>
+                        
+                        <!-- Success Message -->
+                        <div id="successSection" style="display: none;">
+                            <div class="alert alert-success text-center">
+                                <i class="bi bi-check-circle"></i>
+                                Semua pesan berhasil dikirim!
+                            </div>
+                        </div>
+                        
+                        <!-- Stopped Message -->
+                        <div id="stoppedSection" style="display: none;">
+                            <div class="alert alert-warning text-center">
+                                <i class="bi bi-stop-circle"></i>
+                                Broadcast dihentikan oleh pengguna
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Empty State -->
+                    <div class="card-body" id="emptyState">
+                        <div class="empty-state">
+                            <i class="bi bi-inbox"></i>
+                            <h6>Belum Ada Hasil</h6>
+                            <p>Hasil broadcast akan muncul di sini setelah Anda mengirim pesan.</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Tips Card -->
+                <div class="card mt-3">
+                    <div class="card-header">
+                        <h5><i class="bi bi-lightbulb"></i> Tips Broadcast</h5>
+                    </div>
+                    <div class="card-body">
+                        <ul class="list-unstyled mb-0">
+                            <li class="mb-2">
+                                <i class="bi bi-check-circle-fill text-success me-2"></i>
+                                Gunakan delay 2-5 detik untuk pengiriman aman
+                            </li>
+                            <li class="mb-2">
+                                <i class="bi bi-check-circle-fill text-success me-2"></i>
+                                Format tujuan: @username atau user ID
+                            </li>
+                            <li class="mb-2">
+                                <i class="bi bi-check-circle-fill text-success me-2"></i>
+                                Maksimal 100 tujuan per broadcast untuk keamanan
+                            </li>
+                            <li class="mb-2">
+                                <i class="bi bi-check-circle-fill text-success me-2"></i>
+                                Klik "Hentikan Proses" untuk menghentikan broadcast
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Loading Spinner -->
+    <div id="globalLoading">
+        <div class="spinner"></div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
+    
+    <script>
+        // ==================== GLOBAL VARIABLES ====================
+        let currentAccountId = null;
+        let isSending = false;
+        let shouldStop = false;
+        let statusInterval = null;
+        let totalRecipients = 0;
+        let processedCount = 0;
+        let successCount = 0;
+        let failedCount = 0;
+        let failedRecipients = [];
+
+        // ==================== LOADING FUNCTIONS ====================
+        function showLoading() {
+            document.getElementById('globalLoading').style.display = 'flex';
+        }
+
+        function hideLoading() {
+            document.getElementById('globalLoading').style.display = 'none';
+        }
+
+        // ==================== NOTIFICATION FUNCTIONS ====================
+        function showNotification(message, type = 'info') {
+            const notification = document.createElement('div');
+            notification.className = `alert alert-${type} notification`;
+            notification.innerHTML = `
+                <i class="bi ${type === 'success' ? 'bi-check-circle' : type === 'danger' ? 'bi-exclamation-triangle' : 'bi-info-circle'} me-2"></i>
+                ${message}
+            `;
+            
+            document.body.appendChild(notification);
+            
+            setTimeout(() => {
+                notification.style.animation = 'slideOutRight 0.3s ease';
+                setTimeout(() => notification.remove(), 300);
+            }, 3000);
+        }
+
+        // ==================== CHAR COUNTER ====================
+        document.getElementById('message').addEventListener('input', function() {
+            document.getElementById('charCount').textContent = this.value.length;
+        });
+
+        // ==================== DEBUG FILE SELECTION ====================
+        document.getElementById('media').addEventListener('change', function(e) {
+            const file = e.target.files[0];
+            if (file) {
+                console.log('=== FILE SELECTED ===');
+                console.log('Name:', file.name);
+                console.log('Size:', file.size, 'bytes');
+                console.log('Type:', file.type);
+                
+                // Validasi ukuran file
+                if (file.size > 10 * 1024 * 1024) {
+                    showNotification('Ukuran file maksimal 10MB!', 'warning');
+                    this.value = ''; // Reset file input
+                }
+            }
+        });
+
+        // ==================== PARSE RECIPIENTS ====================
+        function parseRecipients(input) {
+            // Split by comma or new line
+            const lines = input.split(/[,\n]/);
+            const recipients = [];
+            
+            lines.forEach(line => {
+                const trimmed = line.trim();
+                if (trimmed) {
+                    recipients.push(trimmed);
+                }
+            });
+            
+            return recipients;
+        }
+
+        // ==================== UPDATE PROGRESS ====================
+        function updateProgress() {
+            const percent = totalRecipients > 0 ? (processedCount / totalRecipients) * 100 : 0;
+            document.getElementById('progressBar').style.width = percent + '%';
+            document.getElementById('progressBar').textContent = Math.round(percent) + '%';
+        }
+
+        // ==================== UPDATE STATS ====================
+        function updateStats() {
+            document.getElementById('successCount').textContent = successCount;
+            document.getElementById('failedCount').textContent = failedCount;
+        }
+
+        // ==================== CHECK BROADCAST STATUS ====================
+        function checkBroadcastStatus() {
+            if (!currentAccountId) return;
+            
+            fetch(`/broadcast_status/${currentAccountId}`)
+                .then(response => response.json())
+                .then(data => {
+                    if (!data.is_running) {
+                        // Broadcast selesai
+                        document.getElementById('stopProcessBtn').disabled = true;
+                        document.getElementById('broadcastStatus').style.display = 'none';
+                        
+                        if (statusInterval) {
+                            clearInterval(statusInterval);
+                            statusInterval = null;
+                        }
+                        
+                        // Ambil hasil akhir dari server
+                        fetchBroadcastResult();
+                    }
+                })
+                .catch(error => console.error('Error checking status:', error));
+        }
+
+        // ==================== FETCH BROADCAST RESULT ====================
+        function fetchBroadcastResult() {
+            // Hasil sudah ada dari response awal, jadi tidak perlu fetch
+            // Tapi kalau mau ambil hasil terbaru, bisa ditambahkan endpoint
+        }
+
+        // ==================== STOP PROCESS ====================
+        function stopProcess() {
+            if (!currentAccountId) return;
+            
+            if (!confirm('Yakin ingin menghentikan proses broadcast?')) {
+                return;
+            }
+            
+            showLoading();
+            
+            fetch(`/stop_broadcast/${currentAccountId}`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                }
+            })
+            .then(response => response.json())
+            .then(data => {
+                hideLoading();
+                
+                if (data.success) {
+                    shouldStop = true;
+                    showNotification('Menghentikan proses broadcast...', 'warning');
+                    
+                    document.getElementById('stopProcessBtn').disabled = true;
+                    document.getElementById('broadcastStatus').style.display = 'none';
+                    document.getElementById('stoppedSection').style.display = 'block';
+                    
+                    if (statusInterval) {
+                        clearInterval(statusInterval);
+                        statusInterval = null;
+                    }
+                    
+                    isSending = false;
+                } else {
+                    showNotification('Error: ' + data.error, 'error');
+                }
+            })
+            .catch(error => {
+                hideLoading();
+                showNotification('Error: ' + error.message, 'error');
+            });
+        }
+
+        // ==================== HANDLE BROADCAST FORM ====================
+        document.getElementById('broadcastForm').addEventListener('submit', async function(e) {
+            e.preventDefault();
+            
+            // Cegah multiple submit
+            if (isSending) {
+                showNotification('Broadcast sedang berlangsung, harap tunggu...', 'warning');
+                return;
+            }
+            
+            const formData = new FormData(this);
+            const recipientsText = formData.get('recipients');
+            const mediaFile = document.getElementById('media').files[0];
+            const accountId = formData.get('account_id');
+            
+            if (!accountId) {
+                showNotification('Pilih akun pengirim!', 'warning');
+                return;
+            }
+            
+            // Validasi
+            if (!recipientsText.trim()) {
+                showNotification('Daftar tujuan tidak boleh kosong!', 'warning');
+                return;
+            }
+            
+            // Parse recipients
+            const recipients = parseRecipients(recipientsText);
+            
+            if (recipients.length === 0) {
+                showNotification('Tidak ada tujuan yang valid!', 'warning');
+                return;
+            }
+            
+            if (recipients.length > 100) {
+                showNotification('Maksimal 100 tujuan per broadcast!', 'warning');
+                return;
+            }
+            
+            // Validasi file
+            if (mediaFile) {
+                console.log('=== FILE DETAILS ===');
+                console.log('Name:', mediaFile.name);
+                console.log('Size:', mediaFile.size, 'bytes');
+                console.log('Type:', mediaFile.type);
+                
+                if (mediaFile.size > 10 * 1024 * 1024) {
+                    showNotification('Ukuran file maksimal 10MB!', 'warning');
+                    return;
+                }
+            }
+            
+            // Reset state
+            isSending = true;
+            shouldStop = false;
+            currentAccountId = accountId;
+            totalRecipients = recipients.length;
+            processedCount = 0;
+            successCount = 0;
+            failedCount = 0;
+            failedRecipients = [];
+            
+            // Disable form
+            const submitBtn = document.getElementById('submitBtn');
+            const originalText = submitBtn.innerHTML;
+            submitBtn.innerHTML = '<i class="bi bi-hourglass"></i> Mengirim...';
+            submitBtn.disabled = true;
+            
+            // Show progress
+            document.getElementById('emptyState').style.display = 'none';
+            document.getElementById('resultArea').style.display = 'block';
+            document.getElementById('progressContainer').style.display = 'block';
+            document.getElementById('stopButtonSection').style.display = 'block';
+            document.getElementById('failedSection').style.display = 'none';
+            document.getElementById('successSection').style.display = 'none';
+            document.getElementById('stoppedSection').style.display = 'none';
+            document.getElementById('broadcastStatus').style.display = 'block';
+            document.getElementById('stopProcessBtn').disabled = false;
+            
+            // Update total
+            document.getElementById('totalCount').textContent = totalRecipients;
+            updateStats();
+            updateProgress();
+            
+            // Buat FormData baru
+            const finalFormData = new FormData();
+            finalFormData.append('account_id', accountId);
+            finalFormData.append('recipients', JSON.stringify(recipients));
+            finalFormData.append('message', formData.get('message'));
+            
+            if (mediaFile) {
+                finalFormData.append('media', mediaFile);
+                console.log('Media appended to FormData');
+            }
+            
+            try {
+                // Kirim request
+                const response = await fetch('/send_broadcast', {
+                    method: 'POST',
+                    body: finalFormData
+                });
+                
+                const data = await response.json();
+                console.log('Response:', data);
+                
+                if (data.success) {
+                    document.getElementById('statusMessage').textContent = 'Broadcast sedang berjalan...';
+                    
+                    // Mulai polling status setiap 3 detik
+                    if (statusInterval) clearInterval(statusInterval);
+                    statusInterval = setInterval(checkBroadcastStatus, 3000);
+                    
+                    showNotification('Broadcast dimulai!', 'success');
+                    
+                    // Di sini seharusnya ada mekanisme untuk mendapatkan hasil
+                    // Tapi karena broadcast berjalan di background, kita perlu polling
+                    
+                } else {
+                    showNotification('Error: ' + (data.error || 'Gagal mengirim'), 'danger');
+                    
+                    // Reset
+                    isSending = false;
+                    submitBtn.innerHTML = originalText;
+                    submitBtn.disabled = false;
+                    document.getElementById('progressContainer').style.display = 'none';
+                    document.getElementById('stopButtonSection').style.display = 'none';
+                    document.getElementById('broadcastStatus').style.display = 'none';
+                }
+            } catch (error) {
+                console.error('Error:', error);
+                showNotification('Error: ' + error.message, 'danger');
+                
+                // Reset
+                isSending = false;
+                submitBtn.innerHTML = originalText;
+                submitBtn.disabled = false;
+                document.getElementById('progressContainer').style.display = 'none';
+                document.getElementById('stopButtonSection').style.display = 'none';
+                document.getElementById('broadcastStatus').style.display = 'none';
+            }
+        });
+
+        // ==================== TOGGLE DELAY SETTINGS ====================
+        document.getElementById('delay_enabled').addEventListener('change', function(e) {
+            const delaySettings = document.getElementById('delay_settings');
+            const delayInput = document.getElementById('delay_time');
+            
+            if (e.target.checked) {
+                delaySettings.style.opacity = '1';
+                delayInput.disabled = false;
+            } else {
+                delaySettings.style.opacity = '0.5';
+                delayInput.disabled = true;
+            }
+        });
+
+        // ==================== STOP BUTTON ====================
+        document.getElementById('stopProcessBtn').addEventListener('click', stopProcess);
+
+        // ==================== RESET FORM ====================
+        function resetForm() {
+            document.getElementById('broadcastForm').reset();
+            document.getElementById('resultArea').style.display = 'none';
+            document.getElementById('emptyState').style.display = 'block';
+            document.getElementById('charCount').textContent = '0';
+            isSending = false;
+            currentAccountId = null;
+            
+            if (statusInterval) {
+                clearInterval(statusInterval);
+                statusInterval = null;
+            }
+        }
+
+        // ==================== INITIALIZATION ====================
+        document.addEventListener('DOMContentLoaded', function() {
+            // Set initial delay settings
+            document.getElementById('delay_settings').style.opacity = '1';
+            
+            // Check if there are active accounts
+            {% if not accounts %}
+                document.getElementById('account_id').disabled = true;
+                document.getElementById('recipients').disabled = true;
+                document.getElementById('message').disabled = true;
+                document.getElementById('media').disabled = true;
+                document.getElementById('delay_enabled').disabled = true;
+                document.getElementById('delay_time').disabled = true;
+                document.getElementById('submitBtn').disabled = true;
+            {% endif %}
+        });
+    </script>
+</body>
+</html>

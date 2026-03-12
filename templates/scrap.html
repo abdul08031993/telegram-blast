@@ -1,0 +1,1489 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Scrap Member - Telegram Blas</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.8.1/font/bootstrap-icons.css">
+<style>
+        :root {
+            --primary-color: #2aabee;        /* Biru Telegram */
+            --secondary-color: #1a8ac9;       /* Biru lebih gelap untuk hover */
+            --success-color: #31b24a;         /* Hijau lebih soft */
+            --danger-color: #e44b4b;          /* Merah lebih soft */
+            --warning-color: #f7b731;          /* Oranye lebih soft */
+            --info-color: #17a2b8;            
+            --bg-light: #f0f2f5;               /* Background abu-abu muda */
+            --text-primary: #1c1e21;           /* Hitam pekat */
+            --text-secondary: #65676b;         /* Abu-abu */
+            --border-color: #e4e6eb;           /* Border abu-abu */
+            --card-bg: #ffffff;                 /* Putih bersih */
+        }
+
+        body {
+            background: var(--bg-light);
+            min-height: 100vh;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+            color: var(--text-primary);
+            margin: 0;
+            padding: 0;
+        }
+
+        /* Navbar */
+        .navbar-custom {
+            background: #ffffff !important;
+            backdrop-filter: blur(10px);
+            box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05), 0 1px 4px rgba(0, 0, 0, 0.05);
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .navbar-custom .navbar-brand {
+            font-weight: 600;
+            color: var(--text-primary) !important;
+            font-size: 1.4rem;
+        }
+
+        .navbar-custom .navbar-brand i {
+            color: var(--primary-color);
+            margin-right: 8px;
+        }
+
+        .navbar-custom .nav-link {
+            color: var(--text-secondary) !important;
+            font-weight: 500;
+            transition: all 0.2s ease;
+            padding: 0.5rem 1rem !important;
+            margin: 0 0.2rem;
+            border-radius: 6px;
+        }
+
+        .navbar-custom .nav-link:hover,
+        .navbar-custom .nav-link.active {
+            color: var(--primary-color) !important;
+            background: rgba(42, 171, 238, 0.08);
+        }
+
+        .navbar-custom .nav-link i {
+            margin-right: 6px;
+            font-size: 1rem;
+        }
+
+        /* Page Header */
+        .page-header {
+            color: var(--text-primary);
+            margin-bottom: 24px;
+        }
+
+        .page-header h2 {
+            font-weight: 600;
+            font-size: 1.8rem;
+            margin-bottom: 8px;
+            color: var(--text-primary);
+        }
+
+        .page-header h2 i {
+            color: var(--primary-color);
+            margin-right: 10px;
+        }
+
+        .page-header p {
+            color: var(--text-secondary);
+            margin-bottom: 0;
+            font-size: 1rem;
+        }
+
+        /* Card Styles */
+        .card {
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
+            transition: all 0.2s ease;
+            overflow: hidden;
+            margin-bottom: 20px;
+            background: var(--card-bg);
+        }
+
+        .card:hover {
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+            transform: translateY(-2px);
+        }
+
+        .card-header {
+            background: #ffffff;
+            color: var(--text-primary);
+            border-bottom: 1px solid var(--border-color);
+            border-radius: 12px 12px 0 0 !important;
+            padding: 16px 20px;
+            font-weight: 600;
+        }
+
+        .card-header h5 {
+            margin: 0;
+            font-size: 1.1rem;
+            color: var(--text-primary);
+        }
+
+        .card-header h5 i {
+            color: var(--primary-color);
+            margin-right: 8px;
+        }
+
+        .card-body {
+            padding: 20px;
+            background: var(--card-bg);
+        }
+
+        /* Form Styles */
+        .form-label {
+            font-weight: 500;
+            color: var(--text-primary);
+            margin-bottom: 6px;
+            font-size: 0.9rem;
+        }
+
+        .form-label i {
+            color: var(--primary-color);
+            margin-right: 5px;
+        }
+
+        .form-control, .form-select {
+            border-radius: 8px;
+            border: 1px solid var(--border-color);
+            padding: 10px 14px;
+            transition: all 0.2s ease;
+            font-size: 0.95rem;
+            background: white;
+            width: 100%;
+        }
+
+        .form-control:focus, .form-select:focus {
+            border-color: var(--primary-color);
+            box-shadow: 0 0 0 3px rgba(42, 171, 238, 0.1);
+            outline: none;
+        }
+
+        .form-control:hover {
+            border-color: #bcc0c8;
+        }
+
+        .input-group-text {
+            background: var(--primary-color);
+            color: white;
+            border: none;
+            border-radius: 8px 0 0 8px;
+            padding: 0 15px;
+        }
+
+        .form-text {
+            color: var(--text-secondary);
+            font-size: 0.8rem;
+            margin-top: 4px;
+        }
+
+        .form-check-input:checked {
+            background-color: var(--primary-color);
+            border-color: var(--primary-color);
+        }
+
+        /* Button Styles */
+        .btn {
+            border-radius: 8px;
+            padding: 8px 16px;
+            font-weight: 500;
+            transition: all 0.2s ease;
+            border: 1px solid transparent;
+            cursor: pointer;
+            font-size: 0.9rem;
+            display: inline-block;
+            text-align: center;
+        }
+
+        .btn i {
+            margin-right: 6px;
+        }
+
+        .btn-primary {
+            background: var(--primary-color);
+            color: white;
+            border: none;
+        }
+
+        .btn-primary:hover:not(:disabled) {
+            background: var(--secondary-color);
+            transform: translateY(-1px);
+            box-shadow: 0 2px 8px rgba(42, 171, 238, 0.3);
+        }
+
+        .btn-success {
+            background: var(--success-color);
+            color: white;
+            border: none;
+        }
+
+        .btn-success:hover:not(:disabled) {
+            background: #279b3b;
+            transform: translateY(-1px);
+            box-shadow: 0 2px 8px rgba(49, 178, 74, 0.3);
+        }
+
+        .btn-info {
+            background: var(--info-color);
+            color: white;
+            border: none;
+        }
+
+        .btn-info:hover:not(:disabled) {
+            background: #138496;
+            transform: translateY(-1px);
+            box-shadow: 0 2px 8px rgba(23, 162, 184, 0.3);
+        }
+
+        .btn-danger {
+            background: var(--danger-color);
+            color: white;
+            border: none;
+        }
+
+        .btn-danger:hover:not(:disabled) {
+            background: #c53737;
+            transform: translateY(-1px);
+            box-shadow: 0 2px 8px rgba(228, 75, 75, 0.3);
+        }
+
+        .btn-warning {
+            background: var(--warning-color);
+            color: white;
+            border: none;
+        }
+
+        .btn-warning:hover:not(:disabled) {
+            background: #e69e2c;
+        }
+
+        .btn-sm {
+            padding: 6px 12px;
+            font-size: 0.85rem;
+        }
+
+        .btn:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+        }
+
+        /* Stat Cards */
+        .stat-card {
+            background: var(--card-bg);
+            color: var(--text-primary);
+            padding: 1.2rem;
+            border-radius: 12px;
+            text-align: center;
+            transition: all 0.2s ease;
+            box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
+            border: 1px solid var(--border-color);
+            height: 100%;
+        }
+
+        .stat-card:hover {
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+            transform: translateY(-2px);
+        }
+
+        .stat-card i {
+            font-size: 2rem;
+            margin-bottom: 0.5rem;
+            color: var(--primary-color);
+        }
+
+        .stat-card .stat-value {
+            font-size: 1.8rem;
+            font-weight: 600;
+            margin-bottom: 0.3rem;
+            color: var(--text-primary);
+        }
+
+        .stat-card .stat-label {
+            font-size: 0.85rem;
+            color: var(--text-secondary);
+        }
+
+        /* Progress Bar */
+        .progress {
+            height: 8px;
+            border-radius: 30px;
+            background: #f0f2f5;
+            overflow: hidden;
+        }
+
+        .progress-bar {
+            background: var(--primary-color);
+            transition: width 0.3s ease;
+        }
+
+        /* Table Styles */
+        .table-responsive {
+            border-radius: 8px;
+            border: 1px solid var(--border-color);
+            overflow: hidden;
+        }
+
+        .table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 0;
+        }
+
+        .table thead th {
+            background: #f8f9fa;
+            color: var(--text-secondary);
+            font-weight: 600;
+            border-bottom: 1px solid var(--border-color);
+            padding: 12px;
+            position: sticky;
+            top: 0;
+            z-index: 10;
+            text-align: left;
+        }
+
+        .table tbody tr {
+            transition: all 0.2s ease;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .table tbody tr:hover {
+            background: #f8f9fa;
+        }
+
+        .table td {
+            padding: 12px;
+            vertical-align: middle;
+            color: var(--text-primary);
+        }
+
+        .table a {
+            color: var(--primary-color);
+            text-decoration: none;
+            font-weight: 500;
+        }
+
+        .table a:hover {
+            text-decoration: underline;
+        }
+
+        /* Badge */
+        .badge {
+            padding: 4px 8px;
+            border-radius: 30px;
+            font-weight: 500;
+            font-size: 0.75rem;
+            display: inline-block;
+        }
+
+        .badge.bg-info {
+            background: #e8f2fa !important;
+            color: #0a4c7a;
+            border: 1px solid #b8d9f0;
+        }
+
+        .badge.bg-success {
+            background: #e8f7ed !important;
+            color: #1f6e3a;
+            border: 1px solid #b1dfc2;
+        }
+
+        .badge.bg-warning {
+            background: #fff3e0 !important;
+            color: #b45f1b;
+            border: 1px solid #ffe0b2;
+        }
+
+        .badge.bg-danger {
+            background: #ffebee !important;
+            color: #b71c1c;
+            border: 1px solid #ffcdd2;
+        }
+
+        /* Pagination */
+        .pagination {
+            margin-bottom: 0;
+            display: flex;
+            gap: 5px;
+        }
+
+        .page-link {
+            border: 1px solid var(--border-color);
+            padding: 6px 12px;
+            border-radius: 6px !important;
+            color: var(--text-primary);
+            font-weight: 500;
+            transition: all 0.2s ease;
+            background: white;
+            cursor: pointer;
+        }
+
+        .page-link:hover {
+            background: var(--primary-color);
+            color: white;
+            border-color: var(--primary-color);
+        }
+
+        .page-item.active .page-link {
+            background: var(--primary-color);
+            color: white;
+            border-color: var(--primary-color);
+        }
+
+        .page-item.disabled .page-link {
+            color: var(--text-secondary);
+            pointer-events: none;
+            background: #f8f9fa;
+        }
+
+        /* Alert */
+        .alert {
+            border-radius: 8px;
+            border: 1px solid transparent;
+            padding: 12px 16px;
+            margin-bottom: 20px;
+        }
+
+        .alert-info {
+            background: #e8f2fa;
+            border-color: #b8d9f0;
+            color: #0a4c7a;
+        }
+
+        .alert-info i {
+            color: var(--info-color);
+        }
+
+        .alert ul {
+            padding-left: 20px;
+            margin-bottom: 0;
+        }
+
+        /* Modal */
+        .modal-content {
+            border-radius: 12px;
+            border: none;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
+            border: 1px solid var(--border-color);
+        }
+
+        .modal-header {
+            background: #ffffff;
+            color: var(--text-primary);
+            border-radius: 12px 12px 0 0;
+            padding: 20px;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .modal-header .modal-title {
+            font-weight: 600;
+            color: var(--text-primary);
+        }
+
+        .modal-header .modal-title i {
+            color: var(--primary-color);
+            margin-right: 8px;
+        }
+
+        .modal-header .btn-close {
+            color: var(--text-secondary);
+        }
+
+        .modal-body {
+            padding: 20px;
+        }
+
+        .modal-footer {
+            border-top: 1px solid var(--border-color);
+            padding: 16px 20px;
+            background: #f8f9fa;
+            border-radius: 0 0 12px 12px;
+        }
+
+        /* Loading Spinner */
+        #globalLoading {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(255, 255, 255, 0.9);
+            z-index: 99999;
+            display: none;
+            justify-content: center;
+            align-items: center;
+            backdrop-filter: blur(3px);
+        }
+
+        .spinner {
+            width: 40px;
+            height: 40px;
+            border: 3px solid var(--border-color);
+            border-top: 3px solid var(--primary-color);
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        /* Notification */
+        .notification {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            z-index: 9999;
+            min-width: 320px;
+            padding: 16px 20px;
+            border-radius: 10px;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.15);
+            animation: slideInRight 0.3s ease;
+            background: white;
+            border-left: 4px solid var(--primary-color);
+        }
+
+        .notification-success {
+            border-left-color: var(--success-color);
+        }
+
+        .notification-error {
+            border-left-color: var(--danger-color);
+        }
+
+        .notification-warning {
+            border-left-color: var(--warning-color);
+        }
+
+        @keyframes slideInRight {
+            from { transform: translateX(100%); opacity: 0; }
+            to { transform: translateX(0%); opacity: 1; }
+        }
+
+        @keyframes slideOutRight {
+            from { transform: translateX(0%); opacity: 1; }
+            to { transform: translateX(100%); opacity: 0; }
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* Container */
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        /* Grid */
+        .row {
+            display: flex;
+            flex-wrap: wrap;
+            margin: 0 -10px;
+        }
+
+        .col {
+            padding: 0 10px;
+            flex: 1;
+        }
+
+        /* Text utilities */
+        .text-success {
+            color: var(--success-color) !important;
+        }
+
+        .text-danger {
+            color: var(--danger-color) !important;
+        }
+
+        .text-warning {
+            color: var(--warning-color) !important;
+        }
+
+        .text-info {
+            color: var(--info-color) !important;
+        }
+
+        .text-muted {
+            color: var(--text-secondary) !important;
+        }
+
+        /* Background utilities */
+        .bg-light {
+            background: #f8f9fa !important;
+        }
+
+        /* Margin utilities */
+        .mt-2 { margin-top: 8px; }
+        .mt-3 { margin-top: 16px; }
+        .mt-4 { margin-top: 24px; }
+        .mb-2 { margin-bottom: 8px; }
+        .mb-3 { margin-bottom: 16px; }
+        .mb-4 { margin-bottom: 24px; }
+        .ml-2 { margin-left: 8px; }
+        .mr-2 { margin-right: 8px; }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .container {
+                padding: 10px;
+            }
+            
+            .card-body {
+                padding: 16px;
+            }
+            
+            .stat-card {
+                margin-bottom: 15px;
+            }
+            
+            .table td, .table th {
+                font-size: 0.85rem;
+                padding: 8px;
+            }
+
+            .page-header h2 {
+                font-size: 1.5rem;
+            }
+
+            .btn {
+                padding: 6px 12px;
+                font-size: 0.85rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Navbar -->
+    <nav class="navbar navbar-expand-lg navbar-dark navbar-custom">
+        <div class="container">
+            <a class="navbar-brand" href="/dashboard">
+                <i class="bi bi-telegram"></i> Telegram Blas
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" href="/dashboard">
+                            <i class="bi bi-speedometer2"></i> Dashboard
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/accounts">
+                            <i class="bi bi-person-badge"></i> Akun
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/broadcast">
+                            <i class="bi bi-send"></i> Broadcast
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/monitor">
+                            <i class="bi bi-chat-dots"></i> Monitor
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link active" href="/scrap">
+                            <i class="bi bi-people-fill"></i> Scrap
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/add_members">
+                            <i class="bi bi-person-plus"></i> Tambah Anggota
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <div class="container mt-4">
+        <!-- Page Header -->
+        <div class="page-header">
+            <h2><i class="bi bi-people-fill"></i> Scrap Member Grup</h2>
+            <p>Ambil data anggota grup Telegram untuk keperluan analisis dan broadcast</p>
+        </div>
+
+        <div class="row">
+            <!-- Left Column - Scrap Form -->
+            <div class="col-lg-4">
+                <div class="card">
+                    <div class="card-header">
+                        <h5 class="mb-0"><i class="bi bi-gear"></i> Konfigurasi Scrap</h5>
+                    </div>
+                    <div class="card-body">
+                        <form id="scrapForm">
+                            <!-- Pilih Akun -->
+                            <div class="mb-3">
+                                <label for="account_id" class="form-label">
+                                    <i class="bi bi-phone"></i> Pilih Akun
+                                </label>
+                                <select class="form-select" id="account_id" name="account_id" required>
+                                    <option value="">-- Pilih Akun --</option>
+                                    {% for account in accounts %}
+                                        <option value="{{ account.id }}">{{ account.phone }}</option>
+                                    {% endfor %}
+                                </select>
+                                {% if not accounts %}
+                                    <div class="form-text text-warning">
+                                        <i class="bi bi-exclamation-triangle"></i>
+                                        Belum ada akun aktif. Silakan <a href="/accounts" class="text-warning">tambah dan login akun</a> terlebih dahulu.
+                                    </div>
+                                {% endif %}
+                            </div>
+
+                            <!-- Grup Target -->
+                            <div class="mb-3">
+                                <label for="group_id" class="form-label">
+                                    <i class="bi bi-people"></i> ID Grup / Username
+                                </label>
+                                <div class="input-group">
+                                    <span class="input-group-text"><i class="bi bi-people"></i></span>
+                                    <input type="text" class="form-control" id="group_id" name="group_id" 
+                                           placeholder="@namagrup atau -100123456789" required>
+                                </div>
+                                <div class="form-text">
+                                    Masukkan username grup (contoh: @namagrup) atau ID grup
+                                </div>
+                            </div>
+
+                            <!-- Filter Options -->
+                            <div class="mb-3">
+                                <label class="form-label">
+                                    <i class="bi bi-funnel"></i> Filter
+                                </label>
+                                <div class="form-check mb-2">
+                                    <input class="form-check-input" type="checkbox" id="filter_active" checked>
+                                    <label class="form-check-label" for="filter_active">
+                                        Hanya anggota aktif
+                                    </label>
+                                </div>
+                                <div class="form-check mb-2">
+                                    <input class="form-check-input" type="checkbox" id="filter_with_username">
+                                    <label class="form-check-label" for="filter_with_username">
+                                        Hanya yang memiliki username
+                                    </label>
+                                </div>
+                                <div class="form-check mb-2">
+                                    <input class="form-check-input" type="checkbox" id="filter_bots">
+                                    <label class="form-check-label" for="filter_bots">
+                                        Sertakan bot
+                                    </label>
+                                </div>
+                            </div>
+
+                            <!-- Submit Button -->
+                            <button type="submit" class="btn btn-primary w-100 btn-lg" id="submitBtn">
+                                <i class="bi bi-search"></i> Mulai Scrap
+                            </button>
+                        </form>
+                    </div>
+                </div>
+
+                <!-- Info Card -->
+                <div class="card mt-3">
+                    <div class="card-header">
+                        <h5 class="mb-0"><i class="bi bi-info-circle"></i> Informasi</h5>
+                    </div>
+                    <div class="card-body">
+                        <div class="alert alert-info mb-0">
+                            <i class="bi bi-lightbulb"></i>
+                            <strong>Tips Scrap:</strong>
+                            <ul class="mb-0 mt-2">
+                                <li>Pastikan akun sudah login</li>
+                                <li>Akun harus menjadi anggota grup</li>
+                                <li>Grup publik lebih mudah di-scrap</li>
+                                <li>Gunakan filter untuk hasil spesifik</li>
+                                <li>Data dapat diexport ke CSV</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Right Column - Results -->
+            <div class="col-lg-8">
+                <div class="card">
+                    <div class="card-header d-flex justify-content-between align-items-center">
+                        <h5 class="mb-0"><i class="bi bi-list-ul"></i> Hasil Scrap</h5>
+                        <div>
+                            <button class="btn btn-sm btn-success" id="exportBtn" style="display: none;">
+                                <i class="bi bi-download"></i> Export CSV
+                            </button>
+                            <button class="btn btn-sm btn-info" id="copyBtn" style="display: none;">
+                                <i class="bi bi-files"></i> Copy
+                            </button>
+                        </div>
+                    </div>
+                    <div class="card-body">
+                        <!-- Progress Bar -->
+                        <div class="progress mb-3" id="progressContainer" style="display: none;">
+                            <div class="progress-bar progress-bar-striped progress-bar-animated" 
+                                 id="progressBar" role="progressbar" style="width: 0%">
+                                0%
+                            </div>
+                        </div>
+
+                        <!-- Statistics -->
+                        <div class="row mb-3" id="statsContainer" style="display: none;">
+                            <div class="col-md-4">
+                                <div class="stat-card">
+                                    <i class="bi bi-people"></i>
+                                    <div class="stat-value" id="totalMembers">0</div>
+                                    <div class="stat-label">Total Anggota</div>
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="stat-card" style="background: linear-gradient(135deg, #28a745, #20c997);">
+                                    <i class="bi bi-person-check"></i>
+                                    <div class="stat-value" id="withUsername">0</div>
+                                    <div class="stat-label">Dengan Username</div>
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="stat-card" style="background: linear-gradient(135deg, #17a2b8, #0dcaf0);">
+                                    <i class="bi bi-robot"></i>
+                                    <div class="stat-value" id="bots">0</div>
+                                    <div class="stat-label">Bot</div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Search and Filter -->
+                        <div class="row mb-3" id="searchContainer" style="display: none;">
+                            <div class="col-md-8">
+                                <div class="input-group">
+                                    <span class="input-group-text"><i class="bi bi-search"></i></span>
+                                    <input type="text" class="form-control" id="searchInput" 
+                                           placeholder="Cari berdasarkan nama, username, atau ID...">
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <select class="form-select" id="filterSelect">
+                                    <option value="all">Semua Anggota</option>
+                                    <option value="with_username">Dengan Username</option>
+                                    <option value="without_username">Tanpa Username</option>
+                                    <option value="bots">Bot</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <!-- Members Table -->
+                        <div class="table-responsive" style="max-height: 500px; overflow-y: auto;">
+                            <table class="table table-hover" id="membersTable">
+                                <thead>
+                                    <tr>
+                                        <th width="5%">
+                                            <input type="checkbox" id="selectAll" class="form-check-input">
+                                        </th>
+                                        <th width="5%">No</th>
+                                        <th width="15%">User ID</th>
+                                        <th width="20%">Username</th>
+                                        <th width="25%">Nama</th>
+                                        <th width="20%">Nomor</th>
+                                        <th width="10%">Tipe</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="membersBody">
+                                    <tr>
+                                        <td colspan="7" class="text-center text-muted py-5">
+                                            <i class="bi bi-inbox" style="font-size: 3rem;"></i>
+                                            <p class="mt-3">Belum ada data. Silakan mulai scrap.</p>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+
+                        <!-- Pagination -->
+                        <nav aria-label="Page navigation" class="mt-3" id="paginationContainer" style="display: none;">
+                            <ul class="pagination justify-content-center" id="pagination"></ul>
+                        </nav>
+
+                        <!-- Info -->
+                        <div class="text-muted small mt-2 text-center" id="resultInfo" style="display: none;">
+                            <i class="bi bi-info-circle"></i>
+                            Menampilkan <span id="displayedCount">0</span> dari <span id="totalFiltered">0</span> anggota
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal Detail Anggota -->
+    <div class="modal fade" id="memberDetailModal" tabindex="-1">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">
+                        <i class="bi bi-person-badge"></i> Detail Anggota
+                    </h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body" id="memberDetailBody">
+                    <!-- Detail will be loaded here -->
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
+                        <i class="bi bi-x"></i> Tutup
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Loading Spinner -->
+    <div id="globalLoading">
+        <div class="spinner"></div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
+    
+    <script>
+        // ==================== GLOBAL VARIABLES ====================
+        let members = [];
+        let filteredMembers = [];
+        let currentPage = 1;
+        const itemsPerPage = 20;
+        let pagination = null;
+
+        // ==================== LOADING FUNCTIONS ====================
+        function showLoading() {
+            document.getElementById('globalLoading').style.display = 'flex';
+        }
+
+        function hideLoading() {
+            document.getElementById('globalLoading').style.display = 'none';
+        }
+
+        // ==================== NOTIFICATION FUNCTIONS ====================
+        function showNotification(message, type = 'info') {
+            const notification = document.createElement('div');
+            notification.className = `alert alert-${type} notification`;
+            notification.innerHTML = `
+                <i class="bi ${type === 'success' ? 'bi-check-circle' : type === 'danger' ? 'bi-exclamation-triangle' : 'bi-info-circle'} me-2"></i>
+                ${message}
+            `;
+            
+            document.body.appendChild(notification);
+            
+            setTimeout(() => {
+                notification.style.animation = 'slideOutRight 0.3s ease';
+                setTimeout(() => notification.remove(), 300);
+            }, 3000);
+        }
+
+        // ==================== DEBOUNCE ====================
+        function debounce(func, wait) {
+            let timeout;
+            return function executedFunction(...args) {
+                const later = () => {
+                    clearTimeout(timeout);
+                    func(...args);
+                };
+                clearTimeout(timeout);
+                timeout = setTimeout(later, wait);
+            };
+        }
+
+        // ==================== API REQUEST ====================
+        async function apiRequest(url, method, formData) {
+            const response = await fetch(url, {
+                method: method,
+                body: formData
+            });
+            
+            if (!response.ok) {
+                throw new Error(`HTTP error! status: ${response.status}`);
+            }
+            
+            return await response.json();
+        }
+
+        // ==================== IS BOT ====================
+        function isBot(member) {
+            return member.username && member.username.toLowerCase().includes('bot');
+        }
+
+        // ==================== UPDATE PROGRESS ====================
+        function updateProgress(value) {
+            const progressBar = document.getElementById('progressBar');
+            progressBar.style.width = value + '%';
+            progressBar.textContent = value + '%';
+        }
+
+        // ==================== UPDATE STATS ====================
+        function updateStats() {
+            const total = filteredMembers.length;
+            const withUsername = filteredMembers.filter(m => m.username).length;
+            const bots = filteredMembers.filter(m => isBot(m)).length;
+            
+            document.getElementById('totalMembers').textContent = total;
+            document.getElementById('withUsername').textContent = withUsername;
+            document.getElementById('bots').textContent = bots;
+            document.getElementById('totalFiltered').textContent = total;
+        }
+
+        // ==================== APPLY FILTERS ====================
+        function applyFilters() {
+            const searchTerm = document.getElementById('searchInput')?.value.toLowerCase() || '';
+            const filterType = document.getElementById('filterSelect')?.value || 'all';
+            const filterActive = document.getElementById('filter_active').checked;
+            const filterWithUsername = document.getElementById('filter_with_username').checked;
+            const filterBots = document.getElementById('filter_bots').checked;
+            
+            filteredMembers = members.filter(member => {
+                // Search filter
+                if (searchTerm) {
+                    const matchesSearch = 
+                        (member.username && member.username.toLowerCase().includes(searchTerm)) ||
+                        (member.first_name && member.first_name.toLowerCase().includes(searchTerm)) ||
+                        (member.last_name && member.last_name.toLowerCase().includes(searchTerm)) ||
+                        (member.id && member.id.toString().includes(searchTerm));
+                    
+                    if (!matchesSearch) return false;
+                }
+                
+                // Type filter from select
+                if (filterType === 'with_username' && !member.username) return false;
+                if (filterType === 'without_username' && member.username) return false;
+                if (filterType === 'bots' && !isBot(member)) return false;
+                
+                // Additional filters
+                if (filterWithUsername && !member.username) return false;
+                if (!filterBots && isBot(member)) return false;
+                
+                return true;
+            });
+            
+            currentPage = 1;
+            displayMembers();
+            updateStats();
+            updatePagination();
+            document.getElementById('resultInfo').style.display = 'block';
+        }
+
+        // ==================== DISPLAY MEMBERS ====================
+        function displayMembers() {
+            const start = (currentPage - 1) * itemsPerPage;
+            const end = start + itemsPerPage;
+            const pageMembers = filteredMembers.slice(start, end);
+            
+            const tbody = document.getElementById('membersBody');
+            const displayedCount = document.getElementById('displayedCount');
+            
+            if (pageMembers.length === 0) {
+                tbody.innerHTML = `
+                    <tr>
+                        <td colspan="7" class="text-center text-muted py-5">
+                            <i class="bi bi-inbox" style="font-size: 3rem;"></i>
+                            <p class="mt-3">Tidak ada anggota yang ditemukan</p>
+                        </td>
+                    </tr>
+                `;
+                displayedCount.textContent = '0';
+                return;
+            }
+            
+            displayedCount.textContent = pageMembers.length;
+            
+            tbody.innerHTML = pageMembers.map((member, index) => {
+                const fullName = [member.first_name, member.last_name].filter(Boolean).join(' ') || '-';
+                return `
+                <tr>
+                    <td>
+                        <input type="checkbox" class="form-check-input member-checkbox" value="${member.id}">
+                    </td>
+                    <td>${start + index + 1}</td>
+                    <td>
+                        <a href="#" onclick="showMemberDetail(${JSON.stringify(member).replace(/"/g, '&quot;')})">
+                            ${member.id}
+                        </a>
+                    </td>
+                    <td>${member.username ? '@' + member.username : '-'}</td>
+                    <td>${fullName}</td>
+                    <td>${member.phone || '-'}</td>
+                    <td>
+                        ${isBot(member) ? 
+                          '<span class="badge bg-info">Bot</span>' : 
+                          '<span class="badge bg-success">User</span>'}
+                    </td>
+                </tr>
+            `}).join('');
+            
+            // Update select all checkbox
+            document.getElementById('selectAll').checked = false;
+        }
+
+        // ==================== SHOW MEMBER DETAIL ====================
+        function showMemberDetail(member) {
+            const fullName = [member.first_name, member.last_name].filter(Boolean).join(' ') || '-';
+            const modalBody = document.getElementById('memberDetailBody');
+            
+            modalBody.innerHTML = `
+                <table class="table table-borderless">
+                    <tr>
+                        <td width="40%"><strong>User ID:</strong></td>
+                        <td>${member.id}</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Username:</strong></td>
+                        <td>${member.username ? '@' + member.username : '-'}</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Nama Lengkap:</strong></td>
+                        <td>${fullName}</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Nomor Telepon:</strong></td>
+                        <td>${member.phone || '-'}</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Tipe:</strong></td>
+                        <td>${isBot(member) ? 'Bot' : 'User'}</td>
+                    </tr>
+                </table>
+            `;
+            
+            const modal = new bootstrap.Modal(document.getElementById('memberDetailModal'));
+            modal.show();
+        }
+
+        // ==================== PAGINATION CLASS ====================
+        class Pagination {
+            constructor(totalItems, itemsPerPage, onPageChange) {
+                this.totalItems = totalItems;
+                this.itemsPerPage = itemsPerPage;
+                this.onPageChange = onPageChange;
+                this.currentPage = 1;
+                this.totalPages = Math.ceil(totalItems / itemsPerPage);
+            }
+            
+            getVisiblePages() {
+                const delta = 2;
+                const range = [];
+                const rangeWithDots = [];
+                let l;
+                
+                for (let i = 1; i <= this.totalPages; i++) {
+                    if (i === 1 || i === this.totalPages || (i >= this.currentPage - delta && i <= this.currentPage + delta)) {
+                        range.push(i);
+                    }
+                }
+                
+                range.forEach(i => {
+                    if (l) {
+                        if (i - l === 2) {
+                            rangeWithDots.push(l + 1);
+                        } else if (i - l !== 1) {
+                            rangeWithDots.push('...');
+                        }
+                    }
+                    rangeWithDots.push(i);
+                    l = i;
+                });
+                
+                return rangeWithDots;
+            }
+            
+            goToPage(page) {
+                if (page < 1 || page > this.totalPages || page === this.currentPage) {
+                    return;
+                }
+                
+                this.currentPage = page;
+                this.onPageChange(page);
+            }
+            
+            nextPage() {
+                this.goToPage(this.currentPage + 1);
+            }
+            
+            prevPage() {
+                this.goToPage(this.currentPage - 1);
+            }
+        }
+
+        // ==================== UPDATE PAGINATION ====================
+        function updatePagination() {
+            const totalPages = Math.ceil(filteredMembers.length / itemsPerPage);
+            
+            if (!pagination) {
+                pagination = new Pagination(filteredMembers.length, itemsPerPage, (page) => {
+                    currentPage = page;
+                    displayMembers();
+                    updatePaginationButtons();
+                });
+            } else {
+                pagination.totalItems = filteredMembers.length;
+                pagination.totalPages = totalPages;
+            }
+            
+            updatePaginationButtons();
+        }
+
+        // ==================== UPDATE PAGINATION BUTTONS ====================
+        function updatePaginationButtons() {
+            const totalPages = pagination.totalPages;
+            const paginationEl = document.getElementById('pagination');
+            
+            if (totalPages <= 1) {
+                paginationEl.innerHTML = `
+                    <li class="page-item disabled"><span class="page-link">Previous</span></li>
+                    <li class="page-item active"><span class="page-link">1</span></li>
+                    <li class="page-item disabled"><span class="page-link">Next</span></li>
+                `;
+                return;
+            }
+            
+            let html = '';
+            
+            // Previous button
+            html += `<li class="page-item ${currentPage === 1 ? 'disabled' : ''}">
+                <a class="page-link" href="#" onclick="event.preventDefault(); pagination.prevPage()">Previous</a>
+            </li>`;
+            
+            // Page numbers
+            const visiblePages = pagination.getVisiblePages();
+            visiblePages.forEach(page => {
+                if (page === '...') {
+                    html += `<li class="page-item disabled"><span class="page-link">...</span></li>`;
+                } else {
+                    html += `<li class="page-item ${page === currentPage ? 'active' : ''}">
+                        <a class="page-link" href="#" onclick="event.preventDefault(); pagination.goToPage(${page})">${page}</a>
+                    </li>`;
+                }
+            });
+            
+            // Next button
+            html += `<li class="page-item ${currentPage === totalPages ? 'disabled' : ''}">
+                <a class="page-link" href="#" onclick="event.preventDefault(); pagination.nextPage()">Next</a>
+            </li>`;
+            
+            paginationEl.innerHTML = html;
+        }
+
+        // ==================== EXPORT TO CSV ====================
+        function exportToCSV(data, filename) {
+            if (!data || data.length === 0) {
+                showNotification('Tidak ada data untuk diexport', 'warning');
+                return;
+            }
+            
+            const headers = Object.keys(data[0]);
+            const csvRows = [];
+            
+            // Add headers
+            csvRows.push(headers.join(','));
+            
+            // Add data
+            for (const row of data) {
+                const values = headers.map(header => {
+                    const value = row[header] || '';
+                    return `"${value.toString().replace(/"/g, '""')}"`;
+                });
+                csvRows.push(values.join(','));
+            }
+            
+            const csvString = csvRows.join('\n');
+            const blob = new Blob([csvString], { type: 'text/csv' });
+            const url = window.URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = filename;
+            a.click();
+            window.URL.revokeObjectURL(url);
+            
+            showNotification('Data berhasil diexport!', 'success');
+        }
+
+        // ==================== COPY TO CLIPBOARD ====================
+        function copyToClipboard(text) {
+            navigator.clipboard.writeText(text).then(() => {
+                showNotification('Berhasil disalin ke clipboard!', 'success');
+            }).catch(() => {
+                showNotification('Gagal menyalin', 'danger');
+            });
+        }
+
+        // ==================== FORM SUBMIT HANDLER ====================
+        document.getElementById('scrapForm').addEventListener('submit', async function(e) {
+            e.preventDefault();
+            
+            const accountId = document.getElementById('account_id').value;
+            const groupId = document.getElementById('group_id').value.trim();
+            
+            if (!accountId) {
+                showNotification('Pilih akun terlebih dahulu!', 'warning');
+                return;
+            }
+            
+            if (!groupId) {
+                showNotification('Masukkan ID grup!', 'warning');
+                return;
+            }
+            
+            // Disable submit button
+            const submitBtn = document.getElementById('submitBtn');
+            const originalText = submitBtn.innerHTML;
+            submitBtn.innerHTML = '<i class="bi bi-hourglass"></i> Memproses...';
+            submitBtn.disabled = true;
+            
+            // Show progress
+            document.getElementById('progressContainer').style.display = 'block';
+            document.getElementById('statsContainer').style.display = 'none';
+            document.getElementById('searchContainer').style.display = 'none';
+            document.getElementById('paginationContainer').style.display = 'none';
+            document.getElementById('exportBtn').style.display = 'none';
+            document.getElementById('copyBtn').style.display = 'none';
+            document.getElementById('resultInfo').style.display = 'none';
+            
+            // Simulate progress
+            let progress = 0;
+            const progressInterval = setInterval(() => {
+                progress += 5;
+                if (progress <= 90) {
+                    updateProgress(progress);
+                }
+            }, 200);
+            
+            showLoading();
+            
+            try {
+                const formData = new FormData();
+                formData.append('account_id', accountId);
+                formData.append('group_id', groupId);
+                
+                const response = await apiRequest('/scrap_group_members', 'POST', formData);
+                
+                clearInterval(progressInterval);
+                updateProgress(100);
+                
+                setTimeout(() => {
+                    hideLoading();
+                    document.getElementById('progressContainer').style.display = 'none';
+                    
+                    if (response.success) {
+                        members = response.members || [];
+                        
+                        if (members.length === 0) {
+                            showNotification('Tidak ada anggota ditemukan', 'info');
+                            document.getElementById('membersBody').innerHTML = `
+                                <tr>
+                                    <td colspan="7" class="text-center text-muted py-5">
+                                        <i class="bi bi-inbox" style="font-size: 3rem;"></i>
+                                        <p class="mt-3">Tidak ada anggota dalam grup ini</p>
+                                    </td>
+                                </tr>
+                            `;
+                        } else {
+                            applyFilters();
+                            
+                            document.getElementById('statsContainer').style.display = 'flex';
+                            document.getElementById('searchContainer').style.display = 'flex';
+                            document.getElementById('paginationContainer').style.display = 'block';
+                            document.getElementById('exportBtn').style.display = 'inline-block';
+                            document.getElementById('copyBtn').style.display = 'inline-block';
+                            document.getElementById('resultInfo').style.display = 'block';
+                            
+                            showNotification(`Berhasil mengambil ${members.length} anggota`, 'success');
+                        }
+                    } else {
+                        showNotification('Error: ' + (response.error || 'Unknown error'), 'danger');
+                        document.getElementById('membersBody').innerHTML = `
+                            <tr>
+                                <td colspan="7" class="text-center text-danger py-5">
+                                    <i class="bi bi-exclamation-triangle" style="font-size: 3rem;"></i>
+                                    <p class="mt-3">${response.error || 'Gagal mengambil data'}</p>
+                                </td>
+                            </tr>
+                        `;
+                    }
+                }, 500);
+                
+            } catch (error) {
+                clearInterval(progressInterval);
+                hideLoading();
+                document.getElementById('progressContainer').style.display = 'none';
+                showNotification('Error: ' + error.message, 'danger');
+            } finally {
+                submitBtn.innerHTML = originalText;
+                submitBtn.disabled = false;
+            }
+        });
+
+        // ==================== EVENT LISTENERS ====================
+        document.getElementById('searchInput').addEventListener('input', debounce(applyFilters, 300));
+        document.getElementById('filterSelect').addEventListener('change', applyFilters);
+        document.getElementById('filter_active').addEventListener('change', applyFilters);
+        document.getElementById('filter_with_username').addEventListener('change', applyFilters);
+        document.getElementById('filter_bots').addEventListener('change', applyFilters);
+        
+        // Select all checkbox
+        document.getElementById('selectAll').addEventListener('change', function(e) {
+            const checkboxes = document.querySelectorAll('.member-checkbox');
+            checkboxes.forEach(cb => cb.checked = e.target.checked);
+        });
+        
+        // Export button
+        document.getElementById('exportBtn').addEventListener('click', function() {
+            const dataToExport = filteredMembers.map(m => ({
+                'User ID': m.id,
+                'Username': m.username || '',
+                'Nama Depan': m.first_name || '',
+                'Nama Belakang': m.last_name || '',
+                'Nomor': m.phone || '',
+                'Tipe': isBot(m) ? 'Bot' : 'User'
+            }));
+            
+            exportToCSV(dataToExport, 'anggota_grup.csv');
+        });
+        
+        // Copy button
+        document.getElementById('copyBtn').addEventListener('click', function() {
+            const selectedMembers = [];
+            document.querySelectorAll('.member-checkbox:checked').forEach(cb => {
+                const member = members.find(m => m.id == cb.value);
+                if (member) selectedMembers.push(member);
+            });
+            
+            if (selectedMembers.length === 0) {
+                showNotification('Pilih anggota terlebih dahulu', 'warning');
+                return;
+            }
+            
+            const text = selectedMembers.map(m => 
+                `${m.id}${m.username ? ' @' + m.username : ''}`
+            ).join('\n');
+            
+            copyToClipboard(text);
+        });
+
+        // ==================== INITIALIZATION ====================
+        document.addEventListener('DOMContentLoaded', function() {
+            // Add animation to cards
+            document.querySelectorAll('.card').forEach((card, index) => {
+                card.style.animation = `fadeIn 0.5s ease ${index * 0.1}s both`;
+            });
+            
+            // Disable form if no accounts
+            {% if not accounts %}
+                document.getElementById('account_id').disabled = true;
+                document.getElementById('group_id').disabled = true;
+                document.getElementById('submitBtn').disabled = true;
+            {% endif %}
+        });
+    </script>
+</body>
+</html>

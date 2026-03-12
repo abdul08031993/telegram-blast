@@ -1,0 +1,33 @@
+# Python
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+*.spec
+*.log
+
+# Virtual environment
+venv/
+env/
+ENV/
+
+# Data files
+sessions/
+uploads/
+*.key
+*.dat
+*.json
+*.pkl
+*.session
+*.session-journal
+
+# Build folders
+build/
+dist/
+release/
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo

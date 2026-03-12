@@ -1,0 +1,615 @@
+<!-- templates/activate.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Aktivasi Lisensi - Telegram Blaster Pro</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.8.1/font/bootstrap-icons.css">
+    <style>
+        body {
+            background: #f0f2f5;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+            margin: 0;
+            padding: 16px;
+        }
+        .activation-card {
+            background: #ffffff;
+            border-radius: 16px;
+            box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05), 0 8px 20px rgba(0, 0, 0, 0.08);
+            padding: 32px;
+            max-width: 440px;
+            width: 100%;
+            margin: 0 auto;
+            animation: fadeIn 0.3s ease;
+            border: 1px solid #e4e6eb;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(-10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        .logo {
+            text-align: center;
+            margin-bottom: 24px;
+        }
+        .logo img {
+            max-width: 96px;
+            border-radius: 50%;
+            box-shadow: 0 1px 4px rgba(0, 0, 0, 0.1);
+        }
+        h2 {
+            color: #1c1e21;
+            font-weight: 600;
+            font-size: 24px;
+            margin-bottom: 24px;
+            text-align: center;
+            letter-spacing: -0.3px;
+        }
+        .form-control {
+            width: 100%;
+            border-radius: 8px;
+            padding: 12px 16px;
+            border: 1px solid #e4e6eb;
+            transition: all 0.2s;
+            font-size: 15px;
+            font-family: inherit;
+            box-sizing: border-box;
+            background-color: #ffffff;
+        }
+        .form-control:focus {
+            border-color: #2aabee;
+            outline: none;
+            box-shadow: 0 0 0 3px rgba(42, 171, 238, 0.1);
+        }
+        .form-control:hover {
+            border-color: #bcc0c8;
+        }
+        .btn-activate {
+            background: #2aabee;
+            border: none;
+            border-radius: 8px;
+            padding: 12px 20px;
+            font-weight: 500;
+            font-size: 16px;
+            color: white;
+            width: 100%;
+            cursor: pointer;
+            transition: background-color 0.2s;
+            font-family: inherit;
+            margin-top: 8px;
+        }
+        .btn-activate:hover:not(:disabled) {
+            background: #1a8ac9;
+            box-shadow: none;
+            transform: none;
+        }
+        .btn-activate:disabled {
+            background: #9ac9e5;
+            cursor: not-allowed;
+            opacity: 0.7;
+        }
+        .info-text {
+            text-align: center;
+            margin-top: 24px;
+            color: #65676b;
+            font-size: 13px;
+        }
+        .info-text a {
+            color: #2aabee;
+            text-decoration: none;
+            font-weight: 500;
+        }
+        .info-text a:hover {
+            text-decoration: underline;
+        }
+        .alert {
+            border-radius: 8px;
+            padding: 12px 16px;
+            margin-bottom: 20px;
+            animation: slideIn 0.2s ease;
+            font-size: 14px;
+            border: 1px solid transparent;
+        }
+        @keyframes slideIn {
+            from { opacity: 0; transform: translateX(-5px); }
+            to { opacity: 1; transform: translateX(0); }
+        }
+        .alert-success {
+            background-color: #e8f7ed;
+            border-color: #b1dfc2;
+            color: #1f6e3a;
+        }
+        .alert-danger {
+            background-color: #ffebee;
+            border-color: #ffcdd2;
+            color: #b71c1c;
+        }
+        .alert-info {
+            background-color: #e8f2fa;
+            border-color: #b8d9f0;
+            color: #0a4c7a;
+        }
+        .alert-warning {
+            background-color: #fff3e0;
+            border-color: #ffe0b2;
+            color: #b45f1b;
+        }
+        .hwid-box {
+            background: #f8f9fa;
+            border-radius: 8px;
+            padding: 16px;
+            margin-bottom: 24px;
+            font-family: 'SF Mono', Monaco, 'Cascadia Code', 'Roboto Mono', monospace;
+            font-size: 14px;
+            text-align: center;
+            border: 1px solid #e4e6eb;
+            box-shadow: none;
+        }
+        .hwid-box small {
+            color: #65676b;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            font-size: 11px;
+            font-family: inherit;
+        }
+        .hwid-box strong {
+            color: #1c1e21;
+            font-size: 15px;
+            word-break: break-all;
+            font-weight: 500;
+            margin-top: 6px;
+            display: block;
+        }
+        .btn-outline-primary {
+            background: transparent;
+            border: 1px solid #2aabee;
+            color: #2aabee;
+            padding: 4px 12px;
+            border-radius: 6px;
+            font-size: 12px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.2s;
+            margin-top: 10px;
+        }
+        .btn-outline-primary:hover {
+            background: #2aabee;
+            color: white;
+        }
+        .spinner {
+            display: inline-block;
+            width: 18px;
+            height: 18px;
+            border: 2px solid rgba(255,255,255,0.3);
+            border-radius: 50%;
+            border-top-color: #fff;
+            animation: spin 0.8s linear infinite;
+            margin-right: 8px;
+            vertical-align: middle;
+        }
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+        .loading-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.5);
+            display: none;
+            justify-content: center;
+            align-items: center;
+            z-index: 9999;
+            backdrop-filter: blur(3px);
+        }
+        .loading-box {
+            background: white;
+            padding: 32px;
+            border-radius: 16px;
+            text-align: center;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.2);
+            max-width: 280px;
+        }
+        .loading-spinner {
+            width: 40px;
+            height: 40px;
+            border: 3px solid #f0f2f5;
+            border-top: 3px solid #2aabee;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+            margin: 0 auto 20px;
+        }
+        .loading-box h5 {
+            color: #1c1e21;
+            font-weight: 500;
+            margin: 0;
+        }
+        .features-list {
+            list-style: none;
+            padding: 0;
+            margin: 20px 0 16px;
+            text-align: left;
+            background: #f8f9fa;
+            border-radius: 8px;
+            padding: 16px;
+            border: 1px solid #e4e6eb;
+        }
+        .features-list li {
+            padding: 6px 0;
+            color: #1c1e21;
+            font-size: 14px;
+            display: flex;
+            align-items: center;
+        }
+        .features-list li:before {
+            content: "✓";
+            color: #2aabee;
+            font-weight: bold;
+            margin-right: 10px;
+            font-size: 16px;
+        }
+        .form-label {
+            color: #1c1e21;
+            font-weight: 500;
+            margin-bottom: 8px;
+            display: block;
+            font-size: 14px;
+        }
+        .form-text {
+            color: #65676b;
+            font-size: 12px;
+            margin-top: 6px;
+        }
+        .btn-close {
+            background: transparent;
+            border: none;
+            font-size: 20px;
+            float: right;
+            cursor: pointer;
+            color: #65676b;
+        }
+        .d-none {
+            display: none !important;
+        }
+        .mt-2 {
+            margin-top: 8px;
+        }
+        .mt-3 {
+            margin-top: 16px;
+        }
+        .text-muted {
+            color: #65676b;
+        }
+        .fw-bold {
+            font-weight: 600;
+        }
+        small {
+            font-size: 12px;
+        }
+        /* Animasi untuk kontak */
+        @keyframes slideInUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        /* Style untuk link kontak */
+        .contact-link {
+            color: #2aabee;
+            text-decoration: none;
+            font-weight: 600;
+            transition: all 0.2s ease;
+        }
+        .contact-link:hover {
+            color: #1a8ac9;
+            text-decoration: underline;
+        }
+        /* Style untuk tombol chat */
+        .btn-chat {
+            display: inline-flex;
+            align-items: center;
+            gap: 5px;
+            padding: 5px 12px;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            font-weight: 500;
+            transition: all 0.2s ease;
+        }
+        .btn-chat:hover {
+            transform: translateY(-1px);
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        }
+    </style>
+</head>
+<body>
+    <!-- Loading Overlay -->
+    <div class="loading-overlay" id="loadingOverlay">
+        <div class="loading-box">
+            <div class="loading-spinner"></div>
+            <h5 id="loadingMessage">Memproses...</h5>
+        </div>
+    </div>
+
+    <div class="activation-card">
+        <div class="logo">
+            <img src="{{ url_for('static', filename='icon.png') }}" alt="Logo Telegram Blaster Pro" onerror="this.src='https://via.placeholder.com/120'">
+        </div>
+        
+        <h2>🔐 Aktivasi Lisensi Lifetime</h2>
+        
+        <!-- HWID Display -->
+        <div class="hwid-box">
+            <small>Hardware ID (HWID) Komputer Anda</small><br>
+            <strong id="hwid">{{ hwid }}</strong>
+            <br>
+            <button class="btn btn-sm btn-outline-primary mt-2" onclick="copyHWID()" style="font-size: 12px;">
+                📋 Copy HWID
+            </button>
+        </div>
+        
+        <!-- Status Messages -->
+        <div id="statusMessage"></div>
+        
+        <!-- Flash Messages -->
+        {% with messages = get_flashed_messages(with_categories=true) %}
+            {% if messages %}
+                {% for category, message in messages %}
+                    <div class="alert alert-{{ 'success' if category == 'success' else 'danger' }} alert-dismissible fade show">
+                        {{ message }}
+                        <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+                    </div>
+                {% endfor %}
+            {% endif %}
+        {% endwith %}
+        
+        <!-- Form Aktivasi -->
+        <form id="activationForm" method="POST" action="{{ url_for('api_activate') }}">
+            <div class="mb-4">
+                <label for="license_key" class="form-label fw-bold">License Key</label>
+                <input type="text" class="form-control" id="license_key" name="license_key" 
+                       placeholder="Masukkan license key Anda" required autofocus>
+                <div class="form-text">
+                    <small>License key akan dikirim via WhatsApp setelah pembelian</small>
+                </div>
+            </div>
+            
+            <button type="submit" class="btn-activate" id="activateBtn">
+                <span class="normal-state">🔑 Aktivasi Sekarang</span>
+                <span class="loading-state d-none">
+                    <span class="spinner"></span> Memproses...
+                </span>
+            </button>
+        </form>
+        
+        <div class="info-text">
+            <p>Belum punya license key? 
+                <a href="#" onclick="showContact()" style="color: #2aabee; text-decoration: none; font-weight: 600;">
+                    Hubungi Kami
+                </a>
+            </p>
+            
+            <!-- Informasi Kontak (muncul saat diklik) -->
+            <div id="contactInfo" style="display: none; margin-top: 15px; padding: 15px; background: #f8f9fa; border-radius: 8px; border: 1px solid #e4e6eb;">
+                <h6 style="color: #1c1e21; margin-bottom: 12px; font-weight: 600;">
+                    <i class="bi bi-headset"></i> Kontak Kami
+                </h6>
+                
+                <!-- WhatsApp -->
+                <div style="margin-bottom: 12px; padding: 8px; background: white; border-radius: 6px; border: 1px solid #e4e6eb;">
+                    <div style="display: flex; align-items: center;">
+                        <i class="bi bi-whatsapp" style="color: #25D366; font-size: 1.2rem; margin-right: 10px;"></i>
+                        <div style="flex: 1;">
+                            <div style="font-size: 0.8rem; color: #65676b;">WhatsApp</div>
+                            <div style="font-weight: 600; color: #1c1e21;">
+                                <a href="https://wa.me/6289516930299?text=Halo%20saya%20ingin%20beli%20lisensi%20Telegram%20Blaster%20Pro" 
+                                   target="_blank" 
+                                   style="color: #25D366; text-decoration: none;">
+                                    0895-1693-0299
+                                </a>
+                            </div>
+                        </div>
+                        <a href="https://wa.me/6289516930299?text=Halo%20saya%20ingin%20beli%20lisensi%20Telegram%20Blaster%20Pro" 
+                           target="_blank"
+                           style="background: #25D366; color: white; padding: 5px 12px; border-radius: 20px; text-decoration: none; font-size: 0.85rem;">
+                            <i class="bi bi-chat"></i> Chat
+                        </a>
+                    </div>
+                </div>
+                
+                <!-- Telegram -->
+                <div style="margin-bottom: 8px; padding: 8px; background: white; border-radius: 6px; border: 1px solid #e4e6eb;">
+                    <div style="display: flex; align-items: center;">
+                        <i class="bi bi-telegram" style="color: #2aabee; font-size: 1.2rem; margin-right: 10px;"></i>
+                        <div style="flex: 1;">
+                            <div style="font-size: 0.8rem; color: #65676b;">Telegram</div>
+                            <div style="font-weight: 600; color: #1c1e21;">
+                                <a href="https://t.me/abdulkurnaedi" 
+                                   target="_blank" 
+                                   style="color: #2aabee; text-decoration: none;">
+                                    @abdulkurnaedi
+                                </a>
+                            </div>
+                        </div>
+                        <a href="https://t.me/abdulkurnaedi" 
+                           target="_blank"
+                           style="background: #2aabee; color: white; padding: 5px 12px; border-radius: 20px; text-decoration: none; font-size: 0.85rem;">
+                            <i class="bi bi-send"></i> Chat
+                        </a>
+                    </div>
+                </div>
+                
+                <!-- Info Tambahan -->
+                <div style="margin-top: 10px; text-align: center; font-size: 0.8rem; color: #65676b;">
+                    <i class="bi bi-info-circle"></i> 
+                    Kirim HWID yang tampil di atas untuk mendapatkan lisensi
+                </div>
+            </div>
+            
+            <p class="mt-3 text-muted">
+                <small>© 2026 Telegram Blaster Pro. All rights reserved.</small>
+            </p>
+        </div>
+    </div>
+
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
+    
+    <script>
+    // Show loading overlay
+    function showLoading(message = 'Memproses...') {
+        document.getElementById('loadingMessage').textContent = message;
+        document.getElementById('loadingOverlay').style.display = 'flex';
+    }
+
+    // Hide loading overlay
+    function hideLoading() {
+        document.getElementById('loadingOverlay').style.display = 'none';
+    }
+
+    // Show status message
+    function showStatus(type, message) {
+        const statusDiv = document.getElementById('statusMessage');
+        const alertClass = type === 'success' ? 'alert-success' : 'alert-danger';
+        statusDiv.innerHTML = `
+            <div class="alert ${alertClass} alert-dismissible fade show">
+                ${message}
+                <button type="button" class="btn-close" onclick="this.parentElement.remove()"></button>
+            </div>
+        `;
+        
+        // Auto hide after 5 seconds
+        setTimeout(() => {
+            const alert = statusDiv.querySelector('.alert');
+            if (alert) {
+                alert.style.transition = 'opacity 0.5s';
+                alert.style.opacity = '0';
+                setTimeout(() => alert.remove(), 500);
+            }
+        }, 5000);
+    }
+
+    // Copy HWID to clipboard
+    function copyHWID() {
+        const hwid = document.getElementById('hwid').textContent;
+        navigator.clipboard.writeText(hwid).then(() => {
+            showStatus('success', '✅ HWID berhasil di-copy!');
+        }).catch(() => {
+            showStatus('danger', '❌ Gagal copy HWID');
+        });
+    }
+
+    // Handle form submission
+    document.getElementById('activationForm').addEventListener('submit', async function(e) {
+        e.preventDefault();
+        
+        const form = this;
+        const licenseKey = document.getElementById('license_key').value.trim();
+        const activateBtn = document.getElementById('activateBtn');
+        
+        if (!licenseKey) {
+            showStatus('danger', '❌ Masukkan license key!');
+            document.getElementById('license_key').focus();
+            return;
+        }
+        
+        // Show loading state
+        activateBtn.disabled = true;
+        activateBtn.querySelector('.normal-state').classList.add('d-none');
+        activateBtn.querySelector('.loading-state').classList.remove('d-none');
+        
+        const formData = new FormData(form);
+        
+        try {
+            const response = await fetch(form.action, {
+                method: 'POST',
+                body: formData
+            });
+            
+            const data = await response.json();
+            
+            if (data.success) {
+                showStatus('success', '✅ Lisensi berhasil diaktifkan! Mengalihkan ke dashboard...');
+                
+                // Disable form
+                document.getElementById('license_key').disabled = true;
+                
+                // Redirect to dashboard after 2 seconds
+                setTimeout(() => {
+                    window.location.href = "{{ url_for('dashboard') }}";
+                }, 2000);
+            } else {
+                showStatus('danger', '❌ ' + (data.error || 'License key tidak valid'));
+                
+                // Reset button
+                activateBtn.disabled = false;
+                activateBtn.querySelector('.normal-state').classList.remove('d-none');
+                activateBtn.querySelector('.loading-state').classList.add('d-none');
+                
+                // Clear input
+                document.getElementById('license_key').value = '';
+                document.getElementById('license_key').focus();
+            }
+        } catch (error) {
+            showStatus('danger', '❌ Error: ' + error.message);
+            
+            // Reset button
+            activateBtn.disabled = false;
+            activateBtn.querySelector('.normal-state').classList.remove('d-none');
+            activateBtn.querySelector('.loading-state').classList.add('d-none');
+        }
+    });
+
+    // Fungsi untuk menampilkan/sembunyikan kontak
+    function showContact() {
+        const contactDiv = document.getElementById('contactInfo');
+        if (contactDiv.style.display === 'none' || contactDiv.style.display === '') {
+            contactDiv.style.display = 'block';
+            contactDiv.style.animation = 'slideInUp 0.3s ease';
+        } else {
+            contactDiv.style.display = 'none';
+        }
+    }
+
+    // Check license status on load
+    async function checkLicenseStatus() {
+        try {
+            const response = await fetch('/api/check-license');
+            const data = await response.json();
+            
+            if (data.licensed) {
+                // Jika sudah licensed, redirect ke dashboard
+                console.log('Sudah licensed, redirecting to dashboard...');
+                window.location.href = "{{ url_for('dashboard') }}";
+            }
+        } catch (error) {
+            console.error('Error checking license:', error);
+        }
+    }
+
+    // Auto-dismiss flash messages
+    document.addEventListener('DOMContentLoaded', function() {
+        // Check license status
+        checkLicenseStatus();
+        
+        // Auto dismiss alerts after 5 seconds
+        setTimeout(() => {
+            document.querySelectorAll('.alert-dismissible').forEach(alert => {
+                alert.style.transition = 'opacity 0.5s';
+                alert.style.opacity = '0';
+                setTimeout(() => alert.remove(), 500);
+            });
+        }, 5000);
+    });
+    </script>
+</body>
+</html>

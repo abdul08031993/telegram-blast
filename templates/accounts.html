@@ -1,0 +1,1227 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kelola Akun - Telegram Blaster Pro</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.8.1/font/bootstrap-icons.css">
+    <style>
+        :root {
+            --primary-color: #2aabee;        /* Biru Telegram */
+            --secondary-color: #1a8ac9;       /* Biru lebih gelap untuk hover */
+            --success-color: #31b24a;         /* Hijau lebih soft */
+            --danger-color: #e44b4b;          /* Merah lebih soft */
+            --warning-color: #f7b731;          /* Oranye lebih soft */
+            --info-color: #17a2b8;            
+            --bg-light: #f0f2f5;               /* Background abu-abu muda */
+            --text-primary: #1c1e21;           /* Hitam pekat */
+            --text-secondary: #65676b;         /* Abu-abu */
+            --border-color: #e4e6eb;           /* Border abu-abu */
+            --card-bg: #ffffff;                 /* Putih bersih */
+        }
+
+        body {
+            background: var(--bg-light);
+            min-height: 100vh;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+            color: var(--text-primary);
+            margin: 0;
+            padding: 0;
+        }
+
+        /* Navbar */
+        .navbar-custom {
+            background: #ffffff !important;
+            backdrop-filter: blur(10px);
+            box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05), 0 1px 4px rgba(0, 0, 0, 0.05);
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .navbar-custom .navbar-brand {
+            font-weight: 600;
+            color: var(--text-primary) !important;
+            font-size: 1.4rem;
+        }
+
+        .navbar-custom .navbar-brand i {
+            color: var(--primary-color);
+            margin-right: 8px;
+        }
+
+        .navbar-custom .nav-link {
+            color: var(--text-secondary) !important;
+            font-weight: 500;
+            transition: all 0.2s ease;
+            padding: 0.5rem 1rem !important;
+            margin: 0 0.2rem;
+            border-radius: 6px;
+        }
+
+        .navbar-custom .nav-link:hover,
+        .navbar-custom .nav-link.active {
+            color: var(--primary-color) !important;
+            background: rgba(42, 171, 238, 0.08);
+        }
+
+        .navbar-custom .nav-link i {
+            margin-right: 6px;
+            font-size: 1rem;
+        }
+
+        /* Header text */
+        .text-white {
+            color: var(--text-primary) !important;
+        }
+        
+        .text-white-50 {
+            color: var(--text-secondary) !important;
+        }
+
+        /* Stat Cards */
+        .stat-card {
+            background: var(--card-bg);
+            color: var(--text-primary);
+            padding: 1.5rem;
+            border-radius: 12px;
+            text-align: center;
+            transition: all 0.2s ease;
+            box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
+            border: 1px solid var(--border-color);
+        }
+
+        .stat-card:hover {
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+            transform: translateY(-2px);
+        }
+
+        .stat-card i {
+            font-size: 2rem;
+            margin-bottom: 1rem;
+            color: var(--primary-color);
+        }
+
+        .stat-card .stat-value {
+            font-size: 2rem;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+            color: var(--text-primary);
+        }
+
+        .stat-card .stat-label {
+            font-size: 0.9rem;
+            color: var(--text-secondary);
+        }
+
+        /* Stat cards with different colors */
+        .stat-card:nth-child(2) i {
+            color: var(--success-color);
+        }
+        .stat-card:nth-child(3) i {
+            color: var(--warning-color);
+        }
+        .stat-card:nth-child(4) i {
+            color: var(--info-color);
+        }
+
+        /* Account Cards */
+        .account-card {
+            background: var(--card-bg);
+            border-radius: 12px;
+            box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
+            margin-bottom: 20px;
+            transition: all 0.2s ease;
+            border: 1px solid var(--border-color);
+            overflow: hidden;
+        }
+
+        .account-card:hover {
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+        }
+
+        .account-card .card-header {
+            background: #ffffff;
+            color: var(--text-primary);
+            padding: 16px 20px;
+            border-bottom: 1px solid var(--border-color);
+            font-weight: 600;
+        }
+
+        .account-card .card-body {
+            padding: 20px;
+        }
+
+        .account-card .card-footer {
+            background: #f8f9fa;
+            padding: 15px 20px;
+            border-top: 1px solid var(--border-color);
+        }
+
+        .status-badge {
+            padding: 4px 10px;
+            border-radius: 30px;
+            font-size: 0.8rem;
+            font-weight: 500;
+            display: inline-block;
+        }
+
+        .status-active {
+            background: #e8f7ed;
+            color: #1f6e3a;
+            border: 1px solid #b1dfc2;
+        }
+
+        .status-inactive {
+            background: #fff3e0;
+            color: #b45f1b;
+            border: 1px solid #ffe0b2;
+        }
+
+        .info-item {
+            padding: 8px 0;
+            border-bottom: 1px solid var(--border-color);
+            font-size: 0.9rem;
+        }
+
+        .info-item:last-child {
+            border-bottom: none;
+        }
+
+        .info-label {
+            font-weight: 600;
+            color: var(--text-secondary);
+            width: 100px;
+            display: inline-block;
+        }
+
+        .info-value {
+            color: var(--text-primary);
+        }
+
+        .btn-action {
+            border-radius: 6px;
+            padding: 8px 16px;
+            font-size: 0.9rem;
+            font-weight: 500;
+            transition: all 0.2s ease;
+            border: 1px solid var(--border-color);
+            background: white;
+            color: var(--text-primary);
+            cursor: pointer;
+        }
+
+        .btn-action i {
+            margin-right: 6px;
+        }
+
+        .btn-action:hover {
+            background: #f8f9fa;
+            border-color: var(--primary-color);
+            color: var(--primary-color);
+        }
+
+        .btn-action.btn-primary {
+            background: var(--primary-color);
+            color: white;
+            border: none;
+        }
+
+        .btn-action.btn-primary:hover {
+            background: var(--secondary-color);
+        }
+
+        .btn-action.btn-warning {
+            background: var(--warning-color);
+            color: white;
+            border: none;
+        }
+
+        .btn-action.btn-info {
+            background: var(--info-color);
+            color: white;
+            border: none;
+        }
+
+        .btn-action.btn-danger {
+            background: var(--danger-color);
+            color: white;
+            border: none;
+        }
+
+        .btn-light {
+            background: white;
+            border: 1px solid var(--border-color);
+            color: var(--text-primary);
+            padding: 10px 20px;
+            border-radius: 8px;
+            font-weight: 500;
+        }
+
+        .btn-light:hover {
+            background: #f8f9fa;
+            border-color: var(--primary-color);
+            color: var(--primary-color);
+        }
+
+        /* Modal Styles */
+        .modal-content {
+            border-radius: 12px;
+            border: none;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
+            border: 1px solid var(--border-color);
+        }
+
+        .modal-header {
+            background: #ffffff;
+            color: var(--text-primary);
+            border-radius: 12px 12px 0 0;
+            padding: 20px;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .modal-header .modal-title {
+            font-weight: 600;
+            color: var(--text-primary);
+        }
+
+        .modal-header .btn-close {
+            color: var(--text-secondary);
+        }
+
+        .modal-body {
+            padding: 24px;
+        }
+
+        .modal-footer {
+            border-top: 1px solid var(--border-color);
+            padding: 16px 20px;
+            background: #f8f9fa;
+            border-radius: 0 0 12px 12px;
+        }
+
+        .form-control, .form-select {
+            border-radius: 8px;
+            border: 1px solid var(--border-color);
+            padding: 10px 14px;
+            transition: all 0.2s ease;
+            font-size: 0.95rem;
+            background: white;
+        }
+
+        .form-control:focus, .form-select:focus {
+            border-color: var(--primary-color);
+            box-shadow: 0 0 0 3px rgba(42, 171, 238, 0.1);
+            outline: none;
+        }
+
+        .form-label {
+            font-weight: 500;
+            color: var(--text-primary);
+            margin-bottom: 6px;
+            font-size: 0.9rem;
+        }
+
+        /* Empty State */
+        .empty-state {
+            text-align: center;
+            padding: 60px 20px;
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
+            border: 1px solid var(--border-color);
+        }
+
+        .empty-state i {
+            font-size: 4rem;
+            color: var(--text-secondary);
+            margin-bottom: 20px;
+            opacity: 0.5;
+        }
+
+        .empty-state h3 {
+            color: var(--text-primary);
+            margin-bottom: 10px;
+            font-weight: 500;
+        }
+
+        .empty-state p {
+            color: var(--text-secondary);
+            margin-bottom: 20px;
+        }
+
+        .empty-state .btn-primary {
+            background: var(--primary-color);
+            color: white;
+            border: none;
+            padding: 10px 24px;
+            border-radius: 8px;
+            font-weight: 500;
+            cursor: pointer;
+        }
+
+        .empty-state .btn-primary:hover {
+            background: var(--secondary-color);
+        }
+
+        /* Notifications */
+        .notification {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            z-index: 9999;
+            min-width: 320px;
+            padding: 16px 20px;
+            border-radius: 10px;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.15);
+            animation: slideInRight 0.3s ease;
+            background: white;
+            border-left: 4px solid var(--primary-color);
+        }
+
+        .notification-success {
+            border-left-color: var(--success-color);
+        }
+
+        .notification-error {
+            border-left-color: var(--danger-color);
+        }
+
+        .notification-warning {
+            border-left-color: var(--warning-color);
+        }
+
+        @keyframes slideInRight {
+            from { transform: translateX(100%); opacity: 0; }
+            to { transform: translateX(0); opacity: 1; }
+        }
+
+        @keyframes slideOutRight {
+            from { transform: translateX(0); opacity: 1; }
+            to { transform: translateX(100%); opacity: 0; }
+        }
+
+        /* Loading */
+        #globalLoading {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(255, 255, 255, 0.9);
+            z-index: 99999;
+            display: none;
+            justify-content: center;
+            align-items: center;
+            backdrop-filter: blur(3px);
+        }
+
+        .spinner {
+            width: 40px;
+            height: 40px;
+            border: 3px solid var(--border-color);
+            border-top: 3px solid var(--primary-color);
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.02); }
+            100% { transform: scale(1); }
+        }
+
+        .pulse {
+            animation: pulse 2s infinite;
+        }
+
+        /* Container */
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        /* Badge */
+        .badge {
+            padding: 4px 8px;
+            border-radius: 4px;
+            font-size: 0.75rem;
+            font-weight: 500;
+        }
+
+        .bg-success {
+            background: var(--success-color) !important;
+            color: white;
+        }
+
+        .bg-warning {
+            background: var(--warning-color) !important;
+            color: white;
+        }
+    </style>
+</head>
+<body>
+    <!-- Navbar -->
+    <nav class="navbar navbar-expand-lg navbar-custom">
+        <div class="container">
+            <a class="navbar-brand" href="/dashboard">
+                <i class="bi bi-telegram"></i> Telegram Blaster Pro
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" href="/dashboard">
+                            <i class="bi bi-speedometer2"></i> Dashboard
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link active" href="/accounts">
+                            <i class="bi bi-person-badge"></i> Akun
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/broadcast">
+                            <i class="bi bi-send"></i> Broadcast
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/monitor">
+                            <i class="bi bi-chat-dots"></i> Monitor
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/scrap">
+                            <i class="bi bi-people-fill"></i> Scrap
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/add_members">
+                            <i class="bi bi-person-plus"></i> Tambah Anggota
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <div class="container">
+        <!-- Header -->
+        <div class="row mb-4">
+            <div class="col-md-8">
+                <h2 class="text-white">
+                    <i class="bi bi-person-badge" style="color: var(--primary-color);"></i> Kelola Akun Telegram
+                </h2>
+                <p class="text-white-50">
+                    Tambah, kelola, dan monitor semua akun Telegram Anda dalam satu tempat
+                </p>
+            </div>
+            <div class="col-md-4 text-end">
+                <button type="button" class="btn btn-light" data-bs-toggle="modal" data-bs-target="#addAccountModal">
+                    <i class="bi bi-plus-circle"></i> Tambah Akun Baru
+                </button>
+            </div>
+        </div>
+
+        <!-- Statistics Cards -->
+        <div class="row mb-4">
+            {% set active_count = accounts|selectattr('is_active', 'equalto', true)|list|length %}
+            {% set inactive_count = accounts|selectattr('is_active', 'equalto', false)|list|length %}
+            {% set session_count = accounts|selectattr('session_string', 'defined')|selectattr('session_string', '!=', none)|list|length %}
+            
+            <div class="col-md-3">
+                <div class="stat-card">
+                    <i class="bi bi-phone"></i>
+                    <div class="stat-value">{{ accounts|length }}</div>
+                    <div class="stat-label">Total Akun</div>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="stat-card">
+                    <i class="bi bi-check-circle" style="color: var(--success-color);"></i>
+                    <div class="stat-value">{{ active_count }}</div>
+                    <div class="stat-label">Aktif</div>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="stat-card">
+                    <i class="bi bi-clock" style="color: var(--warning-color);"></i>
+                    <div class="stat-value">{{ inactive_count }}</div>
+                    <div class="stat-label">Belum Login</div>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="stat-card">
+                    <i class="bi bi-session" style="color: var(--info-color);"></i>
+                    <div class="stat-value">{{ session_count }}</div>
+                    <div class="stat-label">With Session</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Accounts Grid -->
+        <div class="row" id="accountsGrid">
+            {% if accounts %}
+                {% for account in accounts %}
+                <div class="col-md-6 col-lg-4" id="account-{{ account.id }}">
+                    <div class="account-card">
+                        <div class="card-header d-flex justify-content-between align-items-center">
+                            <h5 class="mb-0">
+                                <i class="bi bi-phone me-2" style="color: var(--primary-color);"></i>
+                                {{ account.phone }}
+                            </h5>
+                            <span class="status-badge {% if account.is_active %}status-active{% else %}status-inactive{% endif %}">
+                                {% if account.is_active %}
+                                    <i class="bi bi-check-circle"></i> Aktif
+                                {% else %}
+                                    <i class="bi bi-clock"></i> Belum Login
+                                {% endif %}
+                            </span>
+                        </div>
+                        <div class="card-body">
+                            <div class="info-item">
+                                <span class="info-label">API ID:</span>
+                                <span class="info-value">{{ account.api_id }}</span>
+                            </div>
+                            <div class="info-item">
+                                <span class="info-label">API Hash:</span>
+                                <span class="info-value">{{ account.api_hash[:10] }}...</span>
+                            </div>
+                            <div class="info-item">
+                                <span class="info-label">Ditambahkan:</span>
+                                <span class="info-value">{{ account.created_at }}</span>
+                            </div>
+                            {% if account.last_used %}
+                            <div class="info-item">
+                                <span class="info-label">Terakhir:</span>
+                                <span class="info-value">{{ account.last_used }}</span>
+                            </div>
+                            {% endif %}
+                            {% if account.session_string %}
+                            <div class="info-item">
+                                <span class="info-label">Session:</span>
+                                <span class="info-value" style="color: var(--success-color);">
+                                    <i class="bi bi-check-circle"></i> Tersedia
+                                </span>
+                            </div>
+                            {% endif %}
+                        </div>
+                        <div class="card-footer">
+                            <div class="d-flex justify-content-between">
+                                <div>
+                                    {% if not account.is_active %}
+                                    <button class="btn-action btn-primary" onclick="loginAccount({{ account.id }}, this)">
+                                        <i class="bi bi-box-arrow-in-right"></i> Login
+                                    </button>
+                                    {% else %}
+                                    <button class="btn-action" style="background: var(--warning-color); color: white; border: none;" onclick="logoutAccount({{ account.id }})">
+                                        <i class="bi bi-box-arrow-right"></i> Logout
+                                    </button>
+                                    {% endif %}
+                                </div>
+                                <div>
+                                    <button class="btn-action" style="background: var(--info-color); color: white; border: none;" onclick="viewAccount({{ account.id }})">
+                                        <i class="bi bi-eye"></i>
+                                    </button>
+                                    <button class="btn-action" style="background: var(--danger-color); color: white; border: none;" onclick="deleteAccount({{ account.id }})">
+                                        <i class="bi bi-trash"></i>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                {% endfor %}
+            {% else %}
+            <div class="col-12">
+                <div class="empty-state">
+                    <i class="bi bi-phone"></i>
+                    <h3>Belum Ada Akun</h3>
+                    <p>Tambahkan akun Telegram pertama Anda untuk mulai menggunakan fitur-fitur Telegram Blaster Pro.</p>
+                    <button type="button" class="btn-primary pulse" data-bs-toggle="modal" data-bs-target="#addAccountModal">
+                        <i class="bi bi-plus-circle"></i> Tambah Akun Sekarang
+                    </button>
+                </div>
+            </div>
+            {% endif %}
+        </div>
+    </div>
+
+    <!-- Modal Tambah Akun -->
+    <div class="modal fade" id="addAccountModal" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">
+                        <i class="bi bi-plus-circle" style="color: var(--primary-color);"></i> Tambah Akun Telegram Baru
+                    </h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <form id="addAccountForm">
+                        <div class="mb-3">
+                            <label for="phone" class="form-label">
+                                <i class="bi bi-phone"></i> Nomor Telepon
+                            </label>
+                            <input type="text" class="form-control" id="phone" name="phone" 
+                                   placeholder="+628123456789" required>
+                            <small class="text-secondary">Gunakan format internasional (contoh: +628123456789)</small>
+                        </div>
+                        
+                        <div class="mb-3">
+                            <label for="api_id" class="form-label">
+                                <i class="bi bi-key"></i> API ID
+                            </label>
+                            <input type="text" class="form-control" id="api_id" name="api_id" 
+                                   placeholder="123456" required>
+                            <small class="text-secondary">
+                                Dapatkan API ID dan Hash di 
+                                <a href="https://my.telegram.org/apps" target="_blank" style="color: var(--primary-color);">my.telegram.org</a>
+                            </small>
+                        </div>
+                        
+                        <div class="mb-3">
+                            <label for="api_hash" class="form-label">
+                                <i class="bi bi-shield-lock"></i> API Hash
+                            </label>
+                            <input type="text" class="form-control" id="api_hash" name="api_hash" 
+                                   placeholder="abcdef1234567890" required>
+                        </div>
+                        
+                        <div class="alert" style="background: #e8f2fa; border-color: var(--primary-color); color: var(--text-primary);">
+                            <i class="bi bi-info-circle" style="color: var(--primary-color);"></i>
+                            <strong>Informasi:</strong> Setelah menambahkan akun, Anda perlu melakukan login 
+                            dengan mengklik tombol "Login" pada kartu akun.
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn-action" data-bs-dismiss="modal">
+                        <i class="bi bi-x"></i> Batal
+                    </button>
+                    <button type="button" class="btn-action btn-primary" id="submitAccount">
+                        <i class="bi bi-check"></i> Tambah Akun
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal Verifikasi -->
+    <div class="modal fade" id="verifyModal" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">
+                        <i class="bi bi-shield-check" style="color: var(--primary-color);"></i> Verifikasi Akun
+                    </h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="text-center mb-4">
+                        <i class="bi bi-telegram" style="font-size: 3rem; color: var(--primary-color);"></i>
+                        <p class="mt-2" style="color: var(--text-secondary);">Kode verifikasi telah dikirim ke Telegram Anda</p>
+                    </div>
+                    
+                    <form id="verifyForm">
+                        <div class="mb-3">
+                            <label for="verify_code" class="form-label">
+                                <i class="bi bi-key"></i> Kode Verifikasi
+                            </label>
+                            <input type="text" class="form-control" id="verify_code" name="code" 
+                                   placeholder="12345" required>
+                        </div>
+                        
+                        <div class="mb-3">
+                            <label for="verify_password" class="form-label">
+                                <i class="bi bi-lock"></i> Password 2FA (jika ada)
+                            </label>
+                            <input type="password" class="form-control" id="verify_password" name="password" 
+                                   placeholder="Kosongkan jika tidak ada">
+                            <small class="text-secondary">Isi jika akun Anda memiliki two-factor authentication</small>
+                        </div>
+                        
+                        <div class="alert" style="background: #fff3e0; border-color: var(--warning-color); color: var(--text-primary);">
+                            <i class="bi bi-exclamation-triangle" style="color: var(--warning-color);"></i>
+                            Jangan bagikan kode verifikasi ini kepada siapapun.
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn-action" data-bs-dismiss="modal">
+                        <i class="bi bi-x"></i> Batal
+                    </button>
+                    <button type="button" class="btn-action btn-primary" id="submitVerify">
+                        <i class="bi bi-check"></i> Verifikasi
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal Detail Akun -->
+    <div class="modal fade" id="detailModal" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">
+                        <i class="bi bi-info-circle" style="color: var(--primary-color);"></i> Detail Akun
+                    </h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body" id="detailModalBody">
+                    <div class="text-center text-secondary">Memuat data...</div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn-action" data-bs-dismiss="modal">
+                        <i class="bi bi-x"></i> Tutup
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Loading Spinner -->
+    <div id="globalLoading">
+        <div class="spinner"></div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
+    
+    <script>
+        // ==================== GLOBAL VARIABLES ====================
+        let currentLoginAccountId = null;
+        let isLoggingIn = false;
+        let loginAttempts = 0;
+        const MAX_LOGIN_ATTEMPTS = 3;
+
+        // ==================== NOTIFICATION FUNCTIONS ====================
+        function showNotification(message, type = 'info') {
+            const notification = document.createElement('div');
+            notification.className = `notification notification-${type}`;
+            notification.innerHTML = `
+                <i class="bi ${type === 'success' ? 'bi-check-circle' : type === 'error' ? 'bi-exclamation-triangle' : 'bi-info-circle'} me-2"></i>
+                ${message}
+            `;
+            
+            document.body.appendChild(notification);
+            
+            setTimeout(() => {
+                notification.style.animation = 'slideOutRight 0.3s ease';
+                setTimeout(() => notification.remove(), 300);
+            }, 3000);
+        }
+
+        // ==================== LOADING FUNCTIONS ====================
+        function showLoading() {
+            document.getElementById('globalLoading').style.display = 'flex';
+        }
+
+        function hideLoading() {
+            document.getElementById('globalLoading').style.display = 'none';
+        }
+
+        // ==================== ACCOUNT MANAGEMENT ====================
+        
+        // Handle tambah akun
+        document.getElementById('submitAccount').addEventListener('click', function() {
+            const form = document.getElementById('addAccountForm');
+            const formData = new FormData(form);
+            const phone = formData.get('phone').trim();
+            const apiId = formData.get('api_id').trim();
+            const apiHash = formData.get('api_hash').trim();
+            
+            // Validasi form
+            if (!phone || !apiId || !apiHash) {
+                showNotification('Semua field harus diisi!', 'warning');
+                return;
+            }
+            
+            // Validasi format nomor
+            if (!phone.startsWith('+')) {
+                showNotification('Nomor harus menggunakan format internasional (contoh: +628123456789)', 'warning');
+                return;
+            }
+            
+            // Disable tombol
+            const submitBtn = this;
+            const originalText = submitBtn.innerHTML;
+            submitBtn.innerHTML = '<i class="bi bi-hourglass"></i> Menambahkan...';
+            submitBtn.disabled = true;
+            
+            showLoading();
+            
+            fetch('/add_account', {
+                method: 'POST',
+                body: formData
+            })
+            .then(response => response.json())
+            .then(data => {
+                hideLoading();
+                
+                if (data.success) {
+                    // Tutup modal tambah
+                    const addModal = bootstrap.Modal.getInstance(document.getElementById('addAccountModal'));
+                    if (addModal) addModal.hide();
+                    
+                    // Reset form
+                    document.getElementById('addAccountForm').reset();
+                    
+                    showNotification('Akun berhasil ditambahkan!', 'success');
+                    
+                    // Reload halaman setelah 1 detik
+                    setTimeout(() => {
+                        location.reload();
+                    }, 1000);
+                } else {
+                    showNotification('Error: ' + data.error, 'error');
+                }
+            })
+            .catch(error => {
+                hideLoading();
+                showNotification('Error: ' + error.message, 'error');
+            })
+            .finally(() => {
+                submitBtn.innerHTML = originalText;
+                submitBtn.disabled = false;
+            });
+        });
+
+        // Handle login akun
+        function loginAccount(accountId, button) {
+            // Cegah multiple clicks
+            if (isLoggingIn) {
+                showNotification('Sedang diproses, harap tunggu...', 'warning');
+                return;
+            }
+            
+            // Cek batas percobaan
+            if (loginAttempts >= MAX_LOGIN_ATTEMPTS) {
+                showNotification('Terlalu banyak percobaan. Refresh halaman dan coba lagi.', 'error');
+                return;
+            }
+            
+            isLoggingIn = true;
+            currentLoginAccountId = accountId;
+            
+            // Disable tombol login
+            const originalText = button.innerHTML;
+            button.innerHTML = '<i class="bi bi-hourglass"></i> Memproses...';
+            button.disabled = true;
+            
+            showLoading();
+            
+            fetch(`/login_account/${accountId}`, { 
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                }
+            })
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error(`HTTP error! status: ${response.status}`);
+                }
+                return response.json();
+            })
+            .then(data => {
+                hideLoading();
+                
+                if (data.success) {
+                    loginAttempts = 0; // Reset percobaan
+                    if (data.requires_code) {
+                        // Tampilkan modal verifikasi
+                        const verifyModal = new bootstrap.Modal(document.getElementById('verifyModal'));
+                        verifyModal.show();
+                        showNotification('Kode verifikasi telah dikirim ke Telegram Anda', 'success');
+                    } else {
+                        showNotification('Login berhasil!', 'success');
+                        setTimeout(() => location.reload(), 1000);
+                    }
+                } else {
+                    loginAttempts++;
+                    showNotification('Error: ' + (data.error || 'Unknown error'), 'error');
+                    
+                    // Cek status akun setelah gagal
+                    setTimeout(() => checkAccountStatus(accountId), 2000);
+                }
+            })
+            .catch(error => {
+                hideLoading();
+                loginAttempts++;
+                showNotification('Error: ' + error.message, 'error');
+            })
+            .finally(() => {
+                isLoggingIn = false;
+                button.innerHTML = originalText;
+                button.disabled = false;
+            });
+        }
+
+        // Handle verifikasi kode
+        document.getElementById('submitVerify').addEventListener('click', function() {
+            const code = document.getElementById('verify_code').value.trim();
+            const password = document.getElementById('verify_password').value;
+            const accountId = currentLoginAccountId;
+            
+            if (!code) {
+                showNotification('Kode verifikasi harus diisi!', 'warning');
+                return;
+            }
+            
+            // Disable tombol
+            const verifyBtn = this;
+            const originalText = verifyBtn.innerHTML;
+            verifyBtn.innerHTML = '<i class="bi bi-hourglass"></i> Memverifikasi...';
+            verifyBtn.disabled = true;
+            
+            showLoading();
+            
+            fetch('/verify_code', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/x-www-form-urlencoded',
+                },
+                body: `code=${encodeURIComponent(code)}&password=${encodeURIComponent(password)}`
+            })
+            .then(response => response.json())
+            .then(data => {
+                hideLoading();
+                
+                if (data.success) {
+                    // Tutup modal verifikasi
+                    const verifyModal = bootstrap.Modal.getInstance(document.getElementById('verifyModal'));
+                    if (verifyModal) verifyModal.hide();
+                    
+                    // Reset form
+                    document.getElementById('verifyForm').reset();
+                    
+                    showNotification('Login berhasil!', 'success');
+                    
+                    // Reload halaman setelah 1.5 detik
+                    setTimeout(() => location.reload(), 1500);
+                } else {
+                    if (data.error === 'password_required') {
+                        // Tampilkan field password dengan highlight
+                        showNotification('Akun ini membutuhkan password 2FA', 'warning');
+                        document.getElementById('verify_password').style.borderColor = 'var(--warning-color)';
+                        document.getElementById('verify_password').focus();
+                    } else {
+                        showNotification('Error: ' + (data.error || 'Gagal verifikasi'), 'error');
+                    }
+                }
+            })
+            .catch(error => {
+                hideLoading();
+                showNotification('Error: ' + error.message, 'error');
+            })
+            .finally(() => {
+                verifyBtn.innerHTML = originalText;
+                verifyBtn.disabled = false;
+            });
+        });
+
+        // Handle logout akun
+        function logoutAccount(accountId) {
+            if (!confirm('Yakin ingin logout dari akun ini?')) {
+                return;
+            }
+            
+            showLoading();
+            
+            fetch(`/logout_account/${accountId}`, { 
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                }
+            })
+            .then(response => response.json())
+            .then(data => {
+                hideLoading();
+                
+                if (data.success) {
+                    showNotification('Logout berhasil!', 'success');
+                    setTimeout(() => location.reload(), 1000);
+                } else {
+                    showNotification('Error: ' + data.error, 'error');
+                }
+            })
+            .catch(error => {
+                hideLoading();
+                showNotification('Error: ' + error.message, 'error');
+            });
+        }
+
+        // Handle delete akun
+        function deleteAccount(accountId) {
+            if (!confirm('Yakin ingin menghapus akun ini? Tindakan ini tidak dapat dibatalkan.')) {
+                return;
+            }
+            
+            showLoading();
+            
+            fetch(`/delete_account/${accountId}`, { 
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                }
+            })
+            .then(response => response.json())
+            .then(data => {
+                hideLoading();
+                
+                if (data.success) {
+                    showNotification('Akun berhasil dihapus!', 'success');
+                    
+                    // Hapus card dari tampilan dengan animasi
+                    const accountCard = document.getElementById(`account-${accountId}`);
+                    if (accountCard) {
+                        accountCard.style.transition = 'all 0.5s ease';
+                        accountCard.style.opacity = '0';
+                        accountCard.style.transform = 'scale(0.8)';
+                        
+                        setTimeout(() => {
+                            accountCard.remove();
+                            
+                            // Cek apakah masih ada akun
+                            const remainingCards = document.querySelectorAll('[id^="account-"]');
+                            if (remainingCards.length === 0) {
+                                location.reload(); // Reload untuk menampilkan empty state
+                            }
+                        }, 500);
+                    }
+                } else {
+                    showNotification('Error: ' + data.error, 'error');
+                }
+            })
+            .catch(error => {
+                hideLoading();
+                showNotification('Error: ' + error.message, 'error');
+            });
+        }
+
+        // Handle view detail
+        function viewAccount(accountId) {
+            showLoading();
+            
+            fetch(`/account_status/${accountId}`)
+                .then(response => response.json())
+                .then(data => {
+                    hideLoading();
+                    
+                    if (data.success) {
+                        // Pastikan data yang diterima sesuai dengan yang diharapkan
+                        const detailHtml = `
+                            <div class="info-item">
+                                <span class="info-label">ID Akun:</span>
+                                <span class="info-value">${data.id || '-'}</span>
+                            </div>
+                            <div class="info-item">
+                                <span class="info-label">Nomor:</span>
+                                <span class="info-value">${data.phone || '-'}</span>
+                            </div>
+                            <div class="info-item">
+                                <span class="info-label">API ID:</span>
+                                <span class="info-value">${data.api_id || '-'}</span>
+                            </div>
+                            <div class="info-item">
+                                <span class="info-label">API Hash:</span>
+                                <span class="info-value">${data.api_hash || '-'}</span>
+                            </div>
+                            <div class="info-item">
+                                <span class="info-label">Status:</span>
+                                <span class="info-value">
+                                    <span class="badge ${data.is_active ? 'bg-success' : 'bg-warning'}">
+                                        ${data.is_active ? 'Aktif' : 'Belum Login'}
+                                    </span>
+                                </span>
+                            </div>
+                            <div class="info-item">
+                                <span class="info-label">Session:</span>
+                                <span class="info-value">
+                                    ${data.has_session ? 
+                                        '<span style="color: var(--success-color);"><i class="bi bi-check-circle"></i> Tersedia</span>' : 
+                                        '<span class="text-secondary">Tidak ada</span>'}
+                                </span>
+                            </div>
+                            <div class="info-item">
+                                <span class="info-label">Ditambahkan:</span>
+                                <span class="info-value">${data.created_at || '-'}</span>
+                            </div>
+                            ${data.last_used ? `
+                            <div class="info-item">
+                                <span class="info-label">Terakhir:</span>
+                                <span class="info-value">${data.last_used}</span>
+                            </div>
+                            ` : ''}
+                        `;
+                        
+                        document.getElementById('detailModalBody').innerHTML = detailHtml;
+                        
+                        // Tampilkan modal
+                        const detailModal = new bootstrap.Modal(document.getElementById('detailModal'));
+                        detailModal.show();
+                    } else {
+                        showNotification('Error: ' + (data.error || 'Gagal mengambil data'), 'error');
+                        document.getElementById('detailModalBody').innerHTML = '<div class="text-center text-danger">Gagal memuat data</div>';
+                    }
+                })
+                .catch(error => {
+                    hideLoading();
+                    showNotification('Error: ' + error.message, 'error');
+                    document.getElementById('detailModalBody').innerHTML = '<div class="text-center text-danger">Error: ' + error.message + '</div>';
+                });
+        }
+
+        // Cek status akun
+        function checkAccountStatus(accountId) {
+            fetch(`/check_login_status/${accountId}`)
+                .then(response => response.json())
+                .then(data => {
+                    if (data.success && data.is_active) {
+                        showNotification('Akun berhasil login!', 'success');
+                        setTimeout(() => location.reload(), 1000);
+                    }
+                })
+                .catch(error => console.error('Error checking status:', error));
+        }
+
+        // ==================== MODAL RESET ====================
+        
+        // Reset modal verifikasi saat ditutup
+        const verifyModal = document.getElementById('verifyModal');
+        if (verifyModal) {
+            verifyModal.addEventListener('hidden.bs.modal', function() {
+                document.getElementById('verifyForm').reset();
+                document.getElementById('verify_password').style.borderColor = '';
+            });
+        }
+        
+        // Reset modal tambah saat ditutup
+        const addModal = document.getElementById('addAccountModal');
+        if (addModal) {
+            addModal.addEventListener('hidden.bs.modal', function() {
+                document.getElementById('addAccountForm').reset();
+            });
+        }
+
+        // ==================== AUTO REFRESH STATUS ====================
+        
+        // Auto refresh status setiap 30 detik (hanya jika ada accounts)
+        {% if accounts %}
+        setInterval(() => {
+            {% for account in accounts %}
+                checkAccountStatus({{ account.id }});
+            {% endfor %}
+        }, 30000);
+        {% endif %}
+    </script>
+</body>
+</html>
