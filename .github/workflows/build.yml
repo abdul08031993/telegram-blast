@@ -60,8 +60,28 @@ jobs:
       - name: Debug - Check icon files
         run: |
           echo "=== Checking icon for ${{ matrix.os }} ==="
-          ls -la ${{ matrix.icon }}
-          file ${{ matrix.icon }}
+          echo "Icon path: ${{ matrix.icon }}"
+          
+          # Cek apakah file ada
+          if [ -f "${{ matrix.icon }}" ]; then
+            echo "✅ Icon file exists"
+            
+            # Tampilkan info file (cross-platform)
+            if [ "${{ matrix.os }}" = "windows-latest" ]; then
+              # Windows: pakai perintah PowerShell
+              powershell -Command "Get-ChildItem -Path '${{ matrix.icon }}' | Format-List Name, Length, FullName"
+            else
+              # Linux/macOS: pakai ls dan file
+              ls -la ${{ matrix.icon }}
+              file ${{ matrix.icon }} || true
+            fi
+          else
+            echo "❌ Icon file NOT found at: ${{ matrix.icon }}"
+            echo "Current directory contents:"
+            ls -la || dir
+            exit 1
+          fi
+        shell: bash
       
       - name: Build with PyInstaller (Linux/macOS)
         if: matrix.os != 'windows-latest'
@@ -98,6 +118,7 @@ jobs:
             --hidden-import cryptography `
             --collect-all telethon `
             run_app.py
+        shell: powershell
       
       - name: Upload artifacts
         uses: actions/upload-artifact@v4
