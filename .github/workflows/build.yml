@@ -1,0 +1,123 @@
+name: Build Telegram Blaster Pro for All Platforms
+
+on:
+  workflow_dispatch:
+    inputs:
+      version:
+        description: 'Version to build (contoh: v1.0.0)'
+        required: true
+        default: 'v1.0.0'
+  push:
+    tags:
+      - 'v*'
+
+jobs:
+  build:
+    name: Build on ${{ matrix.os }}
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - os: ubuntu-latest
+            platform: linux
+            extension: ''
+            separator: ':'
+          - os: windows-latest
+            platform: windows
+            extension: .exe
+            separator: ';'
+          - os: macos-latest
+            platform: macos
+            extension: ''
+            separator: ':'
+    
+    runs-on: ${{ matrix.os }}
+    
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+      
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+          cache: 'pip'
+      
+      - name: Install dependencies (Linux/macOS)
+        if: matrix.os != 'windows-latest'
+        run: |
+          python -m pip install --upgrade pip
+          pip install pyinstaller flask telethon pywebview requests cryptography
+      
+      - name: Install dependencies (Windows)
+        if: matrix.os == 'windows-latest'
+        run: |
+          python -m pip install --upgrade pip
+          pip install pyinstaller flask telethon pywebview requests cryptography
+      
+      - name: Create empty folders
+        run: |
+          mkdir -p sessions
+          mkdir -p uploads
+      
+      - name: Build with PyInstaller (Linux/macOS)
+        if: matrix.os != 'windows-latest'
+        run: |
+          pyinstaller --onefile \
+            --windowed \
+            --name "TelegramBlasterPro${{ matrix.extension }}" \
+            --icon icon.png \
+            --add-data "templates${{ matrix.separator }}templates" \
+            --add-data "static${{ matrix.separator }}static" \
+            --add-data "sessions${{ matrix.separator }}sessions" \
+            --add-data "uploads${{ matrix.separator }}uploads" \
+            --hidden-import flask \
+            --hidden-import webview \
+            --hidden-import telethon \
+            --hidden-import cryptography \
+            --collect-all telethon \
+            run_app.py
+      
+      - name: Build with PyInstaller (Windows)
+        if: matrix.os == 'windows-latest'
+        run: |
+          pyinstaller --onefile `
+            --windowed `
+            --name "TelegramBlasterPro${{ matrix.extension }}" `
+            --icon icon.png `
+            --add-data "templates${{ matrix.separator }}templates" `
+            --add-data "static${{ matrix.separator }}static" `
+            --add-data "sessions${{ matrix.separator }}sessions" `
+            --add-data "uploads${{ matrix.separator }}uploads" `
+            --hidden-import flask `
+            --hidden-import webview `
+            --hidden-import telethon `
+            --hidden-import cryptography `
+            --collect-all telethon `
+            run_app.py
+      
+      - name: Upload artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: TelegramBlasterPro-${{ matrix.platform }}-${{ github.event.inputs.version }}
+          path: dist/TelegramBlasterPro${{ matrix.extension }}
+      
+      - name: Create .desktop file (Linux only)
+        if: matrix.os == 'ubuntu-latest'
+        run: |
+          echo "[Desktop Entry]
+          Name=Telegram Blaster Pro
+          Comment=Aplikasi Broadcast Telegram
+          Exec=./TelegramBlasterPro
+          Icon=icon.png
+          Terminal=false
+          Type=Application
+          Categories=Network;Chat;
+          " > dist/TelegramBlasterPro.desktop
+      
+      - name: Upload .desktop file (Linux)
+        if: matrix.os == 'ubuntu-latest'
+        uses: actions/upload-artifact@v4
+        with:
+          name: TelegramBlasterPro-linux-desktop-${{ github.event.inputs.version }}
+          path: dist/TelegramBlasterPro.desktop
