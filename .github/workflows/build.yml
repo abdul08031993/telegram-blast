@@ -63,25 +63,35 @@ jobs:
           echo "Icon path: ${{ matrix.icon }}"
           
           # Cek apakah file ada
+          if (Test-Path "${{ matrix.icon }}") {
+            Write-Host "✅ Icon file exists"
+            Write-Host "File info:"
+            Get-ChildItem -Path "${{ matrix.icon }}" | Format-List Name, Length, FullName
+          } else {
+            Write-Host "❌ Icon file NOT found at: ${{ matrix.icon }}"
+            Write-Host "Current directory contents:"
+            Get-ChildItem
+            exit 1
+          }
+        shell: pwsh
+        if: matrix.os == 'windows-latest'
+      
+      - name: Debug - Check icon files (Linux/macOS)
+        run: |
+          echo "=== Checking icon for ${{ matrix.os }} ==="
+          echo "Icon path: ${{ matrix.icon }}"
           if [ -f "${{ matrix.icon }}" ]; then
             echo "✅ Icon file exists"
-            
-            # Tampilkan info file (cross-platform)
-            if [ "${{ matrix.os }}" = "windows-latest" ]; then
-              # Windows: pakai perintah PowerShell
-              powershell -Command "Get-ChildItem -Path '${{ matrix.icon }}' | Format-List Name, Length, FullName"
-            else
-              # Linux/macOS: pakai ls dan file
-              ls -la ${{ matrix.icon }}
-              file ${{ matrix.icon }} || true
-            fi
+            ls -la ${{ matrix.icon }}
+            file ${{ matrix.icon }} || true
           else
             echo "❌ Icon file NOT found at: ${{ matrix.icon }}"
             echo "Current directory contents:"
-            ls -la || dir
+            ls -la
             exit 1
           fi
         shell: bash
+        if: matrix.os != 'windows-latest'
       
       - name: Build with PyInstaller (Linux/macOS)
         if: matrix.os != 'windows-latest'
@@ -118,7 +128,7 @@ jobs:
             --hidden-import cryptography `
             --collect-all telethon `
             run_app.py
-        shell: powershell
+        shell: pwsh
       
       - name: Upload artifacts
         uses: actions/upload-artifact@v4
